@@ -1,0 +1,13 @@
+.nav-link {
+    color: #282c34 !important;
+
+    &:hover {
+        text-decoration: underline;
+        color: black;
+        font-size: 105%;
+    }
+}
+
+.navbar-collapse {
+    min-height: 45px !important;
+}
