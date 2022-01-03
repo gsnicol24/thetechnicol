@@ -5,7 +5,7 @@ import './skills-panel.scss';
 
 function SkillsPanel() {
     return (
-        <div class="skills-panel">
+        <div class="skills-panel" id="skills">
             <Container>
                 <div class="header-container">
                     <PanelHeader title="Skills"/>
