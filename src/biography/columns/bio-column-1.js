@@ -14,6 +14,9 @@ function BioColumnOne() {
                 </h4>
             </div>
             <div class="links-container">
+                <a href="mailto:gnic24@gmail.com">
+                    <img src="icons/email.png" />
+                </a>
                 <a href="https://github.com/gsnicol24/">
                     <img src="icons/github.png" />
                 </a>

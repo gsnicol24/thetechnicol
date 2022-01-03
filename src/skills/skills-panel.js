@@ -24,7 +24,7 @@ function SkillsPanel() {
                 <div class="row-seperator"></div>
                 <Row>
                     <Col>
-                        <Skill icon="skills/cloud.png" title="Cloud" details="Microsoft Azure and AWS"/>
+                        <Skill icon="skills/cloud.png" title="Cloud" details="Microsoft Azure and Amazon Web Services"/>
                     </Col>
                     <Col>
                         <Skill icon="skills/databases.png" title="Databases" details="MSSQL, Cosmos, PostgreSQL"/>
