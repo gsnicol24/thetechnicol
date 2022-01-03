@@ -16,7 +16,7 @@ function BioPanel() {
                     <Col>
                         <BioColumnOne />
                     </Col>
-                    <Col xs={8}>
+                    <Col xs="12" sm="8">
                         <BioColumnTwo />
                     </Col>
                 </Row>

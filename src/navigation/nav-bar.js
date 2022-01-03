@@ -14,7 +14,6 @@ function NavigationBar() {
                         <Nav.Link href="#home">Home</Nav.Link>
                         <Nav.Link href="#skills">Skills</Nav.Link>
                         <Nav.Link href="#experience">Experience</Nav.Link>
-                        <Nav.Link href="#link">Projects</Nav.Link>
                         <Nav.Link href="/GavinNicol-Resume.pdf" target="_blank" rel="noopener noreferrer nofollow" >Resume</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

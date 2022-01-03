@@ -1,0 +1,52 @@
+.about-me-container {
+    margin-top: 30px;
+    font-weight: 100;
+
+    p {
+        font-size: 1.5em;
+        text-indent: 50px;
+    }
+
+    .interests-and-education {
+        margin-left: 36px;
+
+        h5 {
+            font-weight: 350;
+            text-decoration: underline;
+            letter-spacing: .1em;
+            text-underline-offset: 6px;
+        }
+
+        ul {
+            padding-top: 10px
+        }
+
+        .education-list {
+            list-style-type:none;
+
+            li {
+                margin-left: -10px;
+                margin-bottom: 10px;
+            }
+
+            .education-entry {
+                display: flex;
+                align-items: center;
+
+                img {
+                    width: 36px;
+                    height: 36px;
+                    margin-right: 10px;
+                }
+
+                .education-title {
+                    font-weight: bolder;
+                }
+
+                .education-detail {
+                    font-size: .8em;
+                }
+            }
+        }
+    }
+}
