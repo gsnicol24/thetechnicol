@@ -19,7 +19,7 @@ function BioColumnTwo() {
 
                 <div class="interests-and-education">
                     <Row>
-                        <Col xs="6" sm="4">
+                        <Col xs="12" sm="4">
                             <h5>Interests</h5>
                             <ul>
                                 <li>
@@ -36,15 +36,15 @@ function BioColumnTwo() {
                                 </li>
                             </ul>
                         </Col>
-                        <Col xs="6">
+                        <Col xs="12" sm="8">
                             <h5>Education</h5>
                             <ul class="education-list">
                                 <li>
                                     <div class="education-entry">
                                         <img src="icons/education.png"/>
                                         <div>
-                                            <div class="education-title">Bachelor in Computer Science &middot; 2015</div>
-                                            <div class="education-detail">North Carolina State University</div>
+                                            <div class="education-title">Bachelor in Computer Science</div>
+                                            <div class="education-detail">North Carolina State University &middot; 2015</div>
                                         </div>
                                     </div>
                                 </li>
@@ -52,8 +52,8 @@ function BioColumnTwo() {
                                     <div class="education-entry">
                                         <img src="icons/education.png"/>
                                         <div>
-                                            <div class="education-title">Associate of Science &middot; 2012</div>
-                                            <div class="education-detail">Forsyth Technical Community College</div>
+                                            <div class="education-title">Associate of Science</div>
+                                            <div class="education-detail">Forsyth Technical Community College &middot; 2012</div>
                                         </div>
                                     </div>
                                 </li>
