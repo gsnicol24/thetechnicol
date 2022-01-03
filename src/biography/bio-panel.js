@@ -10,7 +10,7 @@ import './bio-panel.scss'
 
 function BioPanel() {
     return (
-        <div class="bio-panel">
+        <div class="bio-panel" id="home">
             <Container>
                 <Row>
                     <Col>

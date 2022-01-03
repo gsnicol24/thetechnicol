@@ -6,7 +6,7 @@ import './nav-bar.scss'
 
 function NavigationBar() {
     return (
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="light" expand="lg" fixed="top">
             <Container>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -15,7 +15,7 @@ function NavigationBar() {
                         <Nav.Link href="#skills">Skills</Nav.Link>
                         <Nav.Link href="#experience">Experience</Nav.Link>
                         <Nav.Link href="#link">Projects</Nav.Link>
-                        <Nav.Link href="#link">Resume</Nav.Link>
+                        <Nav.Link href="/GavinNicol-Resume.pdf" target="_blank" rel="noopener noreferrer nofollow" >Resume</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
