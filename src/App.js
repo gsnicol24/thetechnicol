@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import BioColumnOne from './biography/bio-column-1'
+import BioColumnTwo from './biography/bio-column-2'
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -19,7 +20,7 @@ function App() {
               <BioColumnOne />
             </Col>
             <Col xs={8}>
-              <h1>Biography</h1>
+              <BioColumnTwo />
             </Col>
           </Row>
           <div>

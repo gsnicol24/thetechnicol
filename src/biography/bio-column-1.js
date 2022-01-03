@@ -1,13 +1,18 @@
 import ProfilePicture from '../profile-picture/profile-picture'
-import './bio-column-1.css'
+import './bio-column-1.scss'
 
 function BioColumnOne() {
     return (
         <div class="bio-column-1">
             <ProfilePicture />
-            <h3 class="name-container">
-                Gavin Nicol
-            </h3>
+            <div class="name-container">
+                <h3>
+                    Gavin Nicol
+                </h3>
+                <h4>
+                    Senior Software Engineer
+                </h4>
+            </div>
         </div>
     )
 }
