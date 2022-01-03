@@ -11,22 +11,21 @@ function SkillsPanel() {
                     <PanelHeader title="Skills"/>
                 </div>
                 <Row>
-                    <Col>
+                    <Col xs="12" sm="4">
                         <Skill icon="skills/csharp.png" title=".NET" details="ASP.NET Core, C#, Visual Basic"/>
                     </Col>
-                    <Col>
+                    <Col xs="12" sm="4">
                         <Skill icon="skills/angular.png" title="Angular" details="AngularJS and Angular 2+"/>
                     </Col>
-                    <Col>
+                    <Col xs="12" sm="4">
                         <Skill icon="skills/android.png" title="Android" details="Android Studio, Kotlin, Java"/>
                     </Col>
                 </Row>
-                <div class="row-seperator"></div>
                 <Row>
-                    <Col>
+                    <Col xs="12" sm="6">
                         <Skill icon="skills/cloud.png" title="Cloud" details="Microsoft Azure and Amazon Web Services"/>
                     </Col>
-                    <Col>
+                    <Col xs="12" sm="6">
                         <Skill icon="skills/databases.png" title="Databases" details="MSSQL, Cosmos, PostgreSQL"/>
                     </Col>
                 </Row>
