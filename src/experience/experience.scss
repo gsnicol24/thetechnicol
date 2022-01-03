@@ -1,0 +1,20 @@
+.experience-panel {
+    padding-top: 75px;
+    padding-bottom: 75px;
+    background-color: #282c34;
+
+    .experience-container {
+        padding: 16px;
+        border-radius: 10px;
+        background-color: #35393f;
+        margin-top: 20px;
+
+        .title {
+            font-variant: small-caps;
+        }
+
+        a {
+            color: white
+        }
+    }
+}

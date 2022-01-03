@@ -4,6 +4,7 @@ import SkillsPanel from './skills/skills-panel';
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ExperiencePanel from './experience/experience';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <div className="App-body">
         <BioPanel />
         <SkillsPanel />
+        <ExperiencePanel />
       </div>
     </div>
   );
