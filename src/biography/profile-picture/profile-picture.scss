@@ -1,0 +1,15 @@
+
+.profile-picture-container {
+    img {
+        border-radius: 100%;
+        max-height: 300px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .profile-picture-container {
+        img {
+            max-height: 200px
+        }
+    }
+}

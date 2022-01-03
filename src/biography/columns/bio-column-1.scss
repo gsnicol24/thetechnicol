@@ -1,6 +1,9 @@
 .bio-column-1 {
     text-align: center;
     
+    a img:hover {
+        filter: opacity(0.5) drop-shadow(0 0 0 blue);
+    }
 }
 
 .name-container {
@@ -19,4 +22,8 @@
         text-transform: none;
         font-variant: small-caps;
     }
+}
+
+.links-container {
+    margin-top:20px;
 }

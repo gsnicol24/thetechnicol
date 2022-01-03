@@ -13,6 +13,14 @@ function BioColumnOne() {
                     Senior Software Engineer
                 </h4>
             </div>
+            <div class="links-container">
+                <a href="https://github.com/gsnicol24/">
+                    <img src="icons/github.png" />
+                </a>
+                <a href="https://www.linkedin.com/in/gavinsnicol/">
+                    <img src="icons/linkedin.png" />
+                </a>
+            </div>
         </div>
     )
 }
