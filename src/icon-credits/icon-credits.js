@@ -8,7 +8,7 @@ function IconCredits() {
     const handleShow = () => setShow(true);
 
     return (
-        <div class="icon-credits-container">
+        <div className="icon-credits-container">
             <a onClick={handleShow}>Icon Credits</a>
 
             <Modal show={show} onHide={handleClose}>

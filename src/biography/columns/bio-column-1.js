@@ -3,9 +3,9 @@ import './bio-column-1.scss'
 
 function BioColumnOne() {
     return (
-        <div class="bio-column-1">
+        <div className="bio-column-1">
             <ProfilePicture />
-            <div class="name-container">
+            <div className="name-container">
                 <h3>
                     Gavin Nicol
                 </h3>
@@ -13,7 +13,7 @@ function BioColumnOne() {
                     Senior Software Engineer
                 </h4>
             </div>
-            <div class="links-container">
+            <div className="links-container">
                 <a href="mailto:gnic24@gmail.com">
                     <img src="icons/email.png" />
                 </a>

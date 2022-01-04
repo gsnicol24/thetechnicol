@@ -5,9 +5,9 @@ import './skills-panel.scss';
 
 function SkillsPanel() {
     return (
-        <div class="skills-panel" id="skills">
+        <div className="skills-panel" id="skills">
             <Container>
-                <div class="header-container">
+                <div className="header-container">
                     <PanelHeader title="Skills"/>
                 </div>
                 <Row>
