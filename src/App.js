@@ -7,6 +7,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ExperiencePanel from './experience/experience';
 import IconCredits from './icon-credits/icon-credits';
 
+import ReactGA from 'react-ga'
+
+ReactGA.initialize('UA-301142432')
+ReactGA.pageview("home")
+
 function App() {
   return (
     <div className="App">
