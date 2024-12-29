@@ -7,12 +7,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ExperiencePanel from './experience/experience';
 import IconCredits from './icon-credits/icon-credits';
 
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
+import { useEffect } from 'react';
 
-ReactGA.initialize('UA-301142432')
-ReactGA.pageview("home")
-
+const TRACKING_ID = "UA-301142432"
 function App() {
+  useEffect(() => {
+    ReactGA.initialize(TRACKING_ID);
+    // Send pageview with a custom path
+    ReactGA.send({ hitType: "pageview", page: "/home", title: "Home" });
+  }, [])
+
   return (
     <div className="App">
       <NavigationBar />
