@@ -9,6 +9,7 @@ import IconCredits from './icon-credits/icon-credits';
 
 import ReactGA from 'react-ga4'
 import { useEffect } from 'react';
+import React from 'react';
 
 const TRACKING_ID = "UA-301142432"
 function App() {
