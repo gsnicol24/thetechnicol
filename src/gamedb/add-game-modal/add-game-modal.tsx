@@ -7,6 +7,7 @@ import { XMLParser } from 'fast-xml-parser';
 import { BGGSearchResult } from "../models/bgg-search-result";
 
 function AddGameModal() {
+    const [selectedId, setSelectedId] = useState<string | undefined>(undefined)
     const [show, setShow] = useState(false);
     const [searchResults, setSearchResults] = useState<BGGSearchResult[]>([])
 
@@ -21,10 +22,9 @@ function AddGameModal() {
         }
 
     const getInfo = () => {
-        const baseUrl = "https://boardgamegeek.com/xmlapi2/search?type=boardgame&query="
-        const encodedUrl = encodeURI(baseUrl + value)
+        const baseUrl = "https://boardgamegeek.com/xmlapi2/search?type=boardgame&query=" + value
 
-        axios.get(encodedUrl)
+        axios.get(baseUrl)
             .then(response => {
                 parseResults(response)
             })
@@ -67,7 +67,7 @@ function AddGameModal() {
     }
 
     const itemClicked = (id: string) => {
-        alert('You clicked the ' + id);
+        setSelectedId(id)
     };
 
 
@@ -82,34 +82,44 @@ function AddGameModal() {
                     <Modal.Title>Add a game</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={onFormSubmit}>
-                        <Row>
-                            <Col>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Search"
-                                    className=" mr-sm-2"
-                                    onChange={onInput}
-                                    value={value}
-                                />
-                            </Col>
-                            <Col xs="2">
-                                <Button style={{ width: "100%" }} type="submit">Submit</Button>
-                            </Col>
-                        </Row>
-                    </Form>
-                    <ListGroup style={{ marginTop: 10 }}>
-                        {
-                            searchResults.map(result => {
-                                return (
-                                    <ListGroup.Item action onClick={() => itemClicked(result.id)}>
-                                        {result.name}
-                                        <span style={{ float: "right" }}>{result.yearPublished}</span>
-                                    </ListGroup.Item>
-                                )
-                            })
-                        }
-                    </ListGroup>
+                    {
+                        selectedId === undefined ?
+                            <div>
+                                <Form onSubmit={onFormSubmit}>
+                                    <Row>
+                                        <Col>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Search"
+                                                className=" mr-sm-2"
+                                                onChange={onInput}
+                                                value={value}
+                                            />
+                                        </Col>
+                                        <Col xs="2">
+                                            <Button style={{ width: "100%" }} type="submit">Submit</Button>
+                                        </Col>
+                                    </Row>
+                                </Form>
+                                <ListGroup style={{ marginTop: 10 }}>
+                                    {
+                                        searchResults.map(result => {
+                                            return (
+                                                <ListGroup.Item action onClick={() => itemClicked(result.id)}>
+                                                    {result.name}
+                                                    <span style={{ float: "right" }}>{result.yearPublished}</span>
+                                                </ListGroup.Item>
+                                            )
+                                        })
+                                    }
+                                </ListGroup>
+                            </div>
+                            :
+                            <div>
+                                Selected ID : {selectedId}
+                            </div>
+                    }
+
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
