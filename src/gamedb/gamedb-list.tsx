@@ -36,7 +36,7 @@ function GameDBList() {
     });
 
     return (
-        <div style={{ marginTop: 100, paddingLeft: 100 }}>
+        <div style={{ marginTop: 100 }}>
             {
                 games?.map((game) => {
                     return (
