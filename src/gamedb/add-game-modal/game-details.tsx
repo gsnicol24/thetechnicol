@@ -16,7 +16,7 @@ function GameDetails(props: { selectedId: string }) {
     useEffect(() => {
         if (props.selectedId !== "manual" && lastIdFetched !== props.selectedId) {
             setLastIdFetched(props.selectedId)
-            const baseUrl = "https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=" + props.selectedId
+            const baseUrl = "https://boardgamegeek.com/xmlapi2/thing?type=boardgame,boardgameexpansion&id=" + props.selectedId
 
             axios.get(baseUrl)
                 .then(response => {
@@ -48,12 +48,16 @@ function GameDetails(props: { selectedId: string }) {
         setMaxPlayers(maxPlayers)
 
         const names = item.name;
-        for (let name of names) {
-            var isPrimary = name['@_type'] === "primary";
-            if (isPrimary) {
-                setGameName(name['@_value'])
-                break;
+        if (Array.isArray(names)) {
+            for (let name of names) {
+                var isPrimary = name['@_type'] === "primary";
+                if (isPrimary) {
+                    setGameName(name['@_value'])
+                    break;
+                }
             }
+        } else {
+            setGameName(names['@_value'])
         }
     }
 
