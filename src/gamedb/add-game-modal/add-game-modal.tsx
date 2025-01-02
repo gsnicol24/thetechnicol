@@ -44,6 +44,7 @@ function AddGameModal() {
     const handleSave = async () => {
         const docRef = await addDoc(collection(db, "games"), {
             name: gameName,
+            bggId: selectedId !== "manual" ? selectedId : undefined,
             minPlayers,
             maxPlayers,
             img: imageUrl
@@ -83,7 +84,6 @@ function AddGameModal() {
         };
         const parser = new XMLParser(options)
         const parsedData = parser.parse(responseData)
-        console.log(parsedData)
         const items = parsedData.items;
 
         const searchResults: BGGSearchResult[] = []
@@ -146,7 +146,7 @@ function AddGameModal() {
                                     {
                                         searchResults.map(result => {
                                             return (
-                                                <ListGroup.Item action onClick={() => itemClicked(result.id)}>
+                                                <ListGroup.Item action onClick={() => itemClicked(result.id)} key={result.id}>
                                                     {result.name}
                                                     <span style={{ float: "right" }}>{result.yearPublished}</span>
                                                 </ListGroup.Item>
