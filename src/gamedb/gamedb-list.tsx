@@ -20,8 +20,12 @@ function GameDBList() {
         async function updateGameList() {
             const querySnapshot = await getDocs(collection(db, "games"));
             const gameDocs = querySnapshot.docs
-                .map(doc => doc.data())
-                .map(docData => docData as Game)
+                .map(doc => {
+                    const docData = doc.data();
+                    const game = docData as Game;
+                    game.id = doc.id;
+                    return game;
+                })
             setGames(gameDocs)
 
         }
@@ -32,47 +36,45 @@ function GameDBList() {
         }
     })
 
-    games?.forEach(game => {
-        console.log(game)
-    });
-
     return (
         <Container style={{ marginTop: 100 }}>
             <Row>
                 {
                     games?.map((game) => {
                         return (
-                            <Col>
-                                <Card style={{ maxWidth: '18rem' }}>
-                                    <Card.Img variant="top" src={game.img} />
-                                    <Card.Body>
-                                        <Card.Title>{game.name}</Card.Title>
-                                        <Card.Text>
-                                            <div>
-                                                <People />
-                                                <span style={{ marginLeft: 6 }}>
+                            <Col key={game.id} xs={12} md="6" lg="3">
+                                <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+                                    <Card style={{ maxWidth: '18rem' }}>
+                                        <Card.Img variant="top" src={game.img} />
+                                        <Card.Body>
+                                            <Card.Title>{game.name}</Card.Title>
+                                            <Card.Text>
+                                                <div>
+                                                    <People />
+                                                    <span style={{ marginLeft: 6 }}>
+                                                        {
+                                                            game.minPlayers === game.maxPlayers ?
+                                                                game.minPlayers :
+                                                                game.minPlayers + " - " + game.maxPlayers
+                                                        }
+                                                    </span>
+                                                </div>
+                                                <div style={{ marginTop: 8 }}>
                                                     {
-                                                        game.minPlayers === game.maxPlayers ?
-                                                            game.minPlayers :
-                                                            game.minPlayers + " - " + game.maxPlayers
+                                                        game.genre ? game.genre.join(", ") : <br />
                                                     }
-                                                </span>
-                                            </div>
-                                            <div style={{ marginTop: 8 }}>
-                                                {
-                                                    game.genre.join(", ")
-                                                }
-                                            </div>
-                                        </Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
+                                                </div>
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                </div>
+                            </Col >
                         )
                     })
                 }
 
-            </Row>
-        </Container>
+            </Row >
+        </Container >
     );
 }
 

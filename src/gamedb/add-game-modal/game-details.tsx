@@ -4,7 +4,14 @@ import { useEffect, useState } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { BGGSearchResult } from "../models/bgg-search-result";
 
-function GameDetails(props: { selectedId: string }) {
+function GameDetails(
+    props: {
+        selectedId: string
+        setImageUrl: React.Dispatch<React.SetStateAction<string | undefined>>,
+        setGameName: React.Dispatch<React.SetStateAction<string | undefined>>,
+        setMinPlayers: React.Dispatch<React.SetStateAction<number>>,
+        setMaxPlayers: React.Dispatch<React.SetStateAction<number>>
+    }) {
 
     const [lastIdFetched, setLastIdFetched] = useState<string | undefined>(undefined)
     const [imageUrl, setImageUrl] = useState<string | undefined>("")
@@ -40,25 +47,45 @@ function GameDetails(props: { selectedId: string }) {
         const item = parsedData.items.item
 
         const imgUrl = item.image;
-        setImageUrl(imgUrl)
+        updateImageUrl(imgUrl)
 
         const minPlayers = item.minplayers['@_value']
         const maxPlayers = item.maxplayers['@_value']
-        setMinPlayers(minPlayers);
-        setMaxPlayers(maxPlayers)
+        updateMinPlayers(minPlayers);
+        updateMaxPlayers(maxPlayers)
 
         const names = item.name;
         if (Array.isArray(names)) {
             for (let name of names) {
                 var isPrimary = name['@_type'] === "primary";
                 if (isPrimary) {
-                    setGameName(name['@_value'])
+                    updateGameName(name['@_value'])
                     break;
                 }
             }
         } else {
-            setGameName(names['@_value'])
+            updateGameName(names['@_value'])
         }
+    }
+
+    const updateGameName = (gameName: string) => {
+        setGameName(gameName);
+        props.setGameName(gameName)
+    }
+
+    const updateImageUrl = (imageUrl: string) => {
+        setImageUrl(imageUrl);
+        props.setImageUrl(imageUrl)
+    }
+
+    const updateMinPlayers = (number: number) => {
+        setMinPlayers(number);
+        props.setMinPlayers(number)
+    }
+
+    const updateMaxPlayers = (number: number) => {
+        setMaxPlayers(number);
+        props.setMaxPlayers(number)
     }
 
     return (
@@ -85,7 +112,7 @@ function GameDetails(props: { selectedId: string }) {
                                 id="gameName"
                                 type="text"
                                 className=" mr-sm-2"
-                                onChange={(e) => setGameName(e.target.value)}
+                                onChange={(e) => updateGameName(e.target.value)}
                                 value={gameName}
                             />
                         </Col>
@@ -98,7 +125,7 @@ function GameDetails(props: { selectedId: string }) {
                                 type="number"
                                 min={1}
                                 className=" mr-sm-2"
-                                onChange={(e) => setMinPlayers(e.target.value as unknown as number)}
+                                onChange={(e) => updateMinPlayers(e.target.value as unknown as number)}
                                 value={minPlayers}
                             />
                         </Col>
@@ -109,7 +136,7 @@ function GameDetails(props: { selectedId: string }) {
                                 type="number"
                                 min={1}
                                 className=" mr-sm-2"
-                                onChange={(e) => setMaxPlayers(e.target.value as unknown as number)}
+                                onChange={(e) => updateMaxPlayers(e.target.value as unknown as number)}
                                 value={maxPlayers}
                             />
                         </Col>
@@ -121,7 +148,7 @@ function GameDetails(props: { selectedId: string }) {
                                 id="gameImgSrc"
                                 type="text"
                                 className=" mr-sm-2"
-                                onChange={(e) => setImageUrl(e.target.value)}
+                                onChange={(e) => updateImageUrl(e.target.value)}
                                 value={imageUrl}
                             />
                         </Col>

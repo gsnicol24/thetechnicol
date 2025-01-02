@@ -6,8 +6,21 @@ import Modal from 'react-bootstrap/Modal';
 import { XMLParser } from 'fast-xml-parser';
 import { BGGSearchResult } from "../models/bgg-search-result";
 import GameDetails from "./game-details";
+import FirebaseConfig from "../firebase-config";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 function AddGameModal() {
+    const app = initializeApp(FirebaseConfig)
+    const db = getFirestore(app);
+
+    const [imageUrl, setImageUrl] = useState<string | undefined>(undefined)
+    const [gameName, setGameName] = useState<string | undefined>(undefined)
+    const [minPlayers, setMinPlayers] = useState<number>(1)
+    const [maxPlayers, setMaxPlayers] = useState<number>(1)
+
+
     const [selectedId, setSelectedId] = useState<string | undefined>(undefined)
     const [show, setShow] = useState(false);
     const [searchResults, setSearchResults] = useState<BGGSearchResult[]>([])
@@ -26,6 +39,20 @@ function AddGameModal() {
         setSearchResults([])
         setValue(undefined)
     };
+
+
+    const handleSave = async () => {
+        const docRef = await addDoc(collection(db, "games"), {
+            name: gameName,
+            minPlayers,
+            maxPlayers,
+            img: imageUrl
+        });
+        console.log("Document written with ID: ", docRef.id);
+
+        handleClose();
+    };
+
     const handleShow = () => setShow(true);
 
     const [value, setValue] = useState(),
@@ -130,7 +157,12 @@ function AddGameModal() {
                             </div>
                             :
                             <div>
-                                <GameDetails selectedId={selectedId} />
+                                <GameDetails
+                                    selectedId={selectedId}
+                                    setGameName={setGameName}
+                                    setImageUrl={setImageUrl}
+                                    setMaxPlayers={setMaxPlayers}
+                                    setMinPlayers={setMinPlayers} />
                             </div>
                     }
 
@@ -139,7 +171,7 @@ function AddGameModal() {
                     <Button variant="secondary" onClick={onAddManually}>
                         {selectedId === undefined ? "Add manually" : "Search for game"}
                     </Button>
-                    <Button variant="primary" onClick={handleClose} disabled>
+                    <Button variant="primary" onClick={handleSave} disabled={!gameName}>
                         Add game
                     </Button>
                 </Modal.Footer>
