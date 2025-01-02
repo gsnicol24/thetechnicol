@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Game } from "./models/game"
 import Card from 'react-bootstrap/Card';
 import { People } from "react-bootstrap-icons";
+import { Container } from "react-bootstrap";
 
 function GameDBList() {
     const [games, setGames] = useState<Game[]>()
@@ -36,7 +37,7 @@ function GameDBList() {
     });
 
     return (
-        <div style={{ marginTop: 100 }}>
+        <Container style={{ marginTop: 100 }}>
             {
                 games?.map((game) => {
                     return (
@@ -66,7 +67,7 @@ function GameDBList() {
                     )
                 })
             }
-        </div>
+        </Container>
     );
 }
 
