@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { Game } from "./models/game"
 import Card from 'react-bootstrap/Card';
 import { People } from "react-bootstrap-icons";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 
 function GameDBList() {
     const [games, setGames] = useState<Game[]>()
@@ -38,35 +38,40 @@ function GameDBList() {
 
     return (
         <Container style={{ marginTop: 100 }}>
-            {
-                games?.map((game) => {
-                    return (
-                        <Card style={{ width: '18rem' }}>
-                            <Card.Img variant="top" src={game.img} />
-                            <Card.Body>
-                                <Card.Title>{game.name}</Card.Title>
-                                <Card.Text>
-                                    <div>
-                                        <People />
-                                        <span style={{ marginLeft: 6 }}>
-                                            {
-                                                game.minPlayers === game.maxPlayers ?
-                                                    game.minPlayers :
-                                                    game.minPlayers + " - " + game.maxPlayers
-                                            }
-                                        </span>
-                                    </div>
-                                    <div style={{ marginTop: 8 }}>
-                                        {
-                                            game.genre.join(", ")
-                                        }
-                                    </div>
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
-                    )
-                })
-            }
+            <Row>
+                {
+                    games?.map((game) => {
+                        return (
+                            <Col>
+                                <Card style={{ maxWidth: '18rem' }}>
+                                    <Card.Img variant="top" src={game.img} />
+                                    <Card.Body>
+                                        <Card.Title>{game.name}</Card.Title>
+                                        <Card.Text>
+                                            <div>
+                                                <People />
+                                                <span style={{ marginLeft: 6 }}>
+                                                    {
+                                                        game.minPlayers === game.maxPlayers ?
+                                                            game.minPlayers :
+                                                            game.minPlayers + " - " + game.maxPlayers
+                                                    }
+                                                </span>
+                                            </div>
+                                            <div style={{ marginTop: 8 }}>
+                                                {
+                                                    game.genre.join(", ")
+                                                }
+                                            </div>
+                                        </Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        )
+                    })
+                }
+
+            </Row>
         </Container>
     );
 }
