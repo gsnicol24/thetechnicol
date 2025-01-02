@@ -16,25 +16,36 @@ function GameDBList() {
     const app = initializeApp(FirebaseConfig);
     const db = getFirestore(app);
 
-    useEffect(() => {
-        async function updateGameList() {
-            const querySnapshot = await getDocs(collection(db, "games"));
-            const gameDocs = querySnapshot.docs
-                .map(doc => {
-                    const docData = doc.data();
-                    const game = docData as Game;
-                    game.id = doc.id;
-                    return game;
-                })
-            setGames(gameDocs)
+    const unsub = onSnapshot(collection(db, "games"), snapshot => {
+        const gameDocs = snapshot.docs
+            .map(doc => {
+                const docData = doc.data();
+                const game = docData as Game;
+                game.id = doc.id;
+                return game;
+            })
+        setGames(gameDocs)
+    });
 
-        }
+    // useEffect(() => {
+    //     async function updateGameList() {
+    //         const querySnapshot = await getDocs(collection(db, "games"));
+    //         const gameDocs = querySnapshot.docs
+    //             .map(doc => {
+    //                 const docData = doc.data();
+    //                 const game = docData as Game;
+    //                 game.id = doc.id;
+    //                 return game;
+    //             })
+    //         setGames(gameDocs)
 
-        if (updateNeeded) {
-            setUpdateNeeded(false)
-            updateGameList();
-        }
-    })
+    //     }
+
+    //     if (updateNeeded) {
+    //         setUpdateNeeded(false)
+    //         updateGameList();
+    //     }
+    // })
 
     return (
         <Container style={{ marginTop: 100 }}>
