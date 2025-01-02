@@ -5,6 +5,7 @@ import { PlusLg } from "react-bootstrap-icons";
 import Modal from 'react-bootstrap/Modal';
 import { XMLParser } from 'fast-xml-parser';
 import { BGGSearchResult } from "../models/bgg-search-result";
+import GameDetails from "./game-details";
 
 function AddGameModal() {
     const [selectedId, setSelectedId] = useState<string | undefined>(undefined)
@@ -116,7 +117,7 @@ function AddGameModal() {
                             </div>
                             :
                             <div>
-                                Selected ID : {selectedId}
+                                <GameDetails selectedId={selectedId} />
                             </div>
                     }
 
