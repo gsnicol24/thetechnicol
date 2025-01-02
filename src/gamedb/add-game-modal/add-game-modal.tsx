@@ -12,7 +12,20 @@ function AddGameModal() {
     const [show, setShow] = useState(false);
     const [searchResults, setSearchResults] = useState<BGGSearchResult[]>([])
 
-    const handleClose = () => setShow(false);
+
+    const onAddManually = () => {
+        setSelectedId(undefined)
+        setSearchResults([])
+        setValue(undefined)
+        setSelectedId(selectedId !== undefined ? undefined : "manual")
+    }
+
+    const handleClose = () => {
+        setShow(false)
+        setSelectedId(undefined)
+        setSearchResults([])
+        setValue(undefined)
+    };
     const handleShow = () => setShow(true);
 
     const [value, setValue] = useState(),
@@ -98,7 +111,7 @@ function AddGameModal() {
                                             />
                                         </Col>
                                         <Col xs="2">
-                                            <Button style={{ width: "100%" }} type="submit">Submit</Button>
+                                            <Button style={{ width: "100%" }} type="submit">Search</Button>
                                         </Col>
                                     </Row>
                                 </Form>
@@ -123,11 +136,11 @@ function AddGameModal() {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
+                    <Button variant="secondary" onClick={onAddManually}>
+                        {selectedId === undefined ? "Add manually" : "Search for game"}
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Save Changes
+                    <Button variant="primary" onClick={handleClose} disabled>
+                        Add game
                     </Button>
                 </Modal.Footer>
             </Modal>

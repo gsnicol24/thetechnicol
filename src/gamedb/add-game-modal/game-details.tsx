@@ -1,9 +1,12 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { XMLParser } from "fast-xml-parser";
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
+import { BGGSearchResult } from "../models/bgg-search-result";
 
 function GameDetails(props: { selectedId: string }) {
 
+    const [lastIdFetched, setLastIdFetched] = useState<string | undefined>(undefined)
     const [imageUrl, setImageUrl] = useState<string | undefined>("")
     const [gameName, setGameName] = useState<string | undefined>("")
     const [minPlayers, setMinPlayers] = useState<number>(1)
@@ -11,18 +14,48 @@ function GameDetails(props: { selectedId: string }) {
 
 
     useEffect(() => {
-        // if (props.selectedId !== "manual") {
-        //     const baseUrl = "https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=" + props.selectedId
+        if (props.selectedId !== "manual" && lastIdFetched !== props.selectedId) {
+            setLastIdFetched(props.selectedId)
+            const baseUrl = "https://boardgamegeek.com/xmlapi2/thing?type=boardgame&id=" + props.selectedId
 
-        //     axios.get(baseUrl)
-        //         .then(response => {
-        //             console.log(response);
-        //         })
-        //         .catch(error => {
-        //             console.error(error)
-        //         })
-        // }
+            axios.get(baseUrl)
+                .then(response => {
+                    parseResults(response)
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+        }
     });
+
+    const parseResults = (response: AxiosResponse) => {
+        const responseData = response.data;
+
+        const options = {
+            ignoreAttributes: false,
+            attributeNamePrefix: '@_', // you have assign this so use this to access the attribute
+        };
+        const parser = new XMLParser(options)
+        const parsedData = parser.parse(responseData)
+        const item = parsedData.items.item
+
+        const imgUrl = item.image;
+        setImageUrl(imgUrl)
+
+        const minPlayers = item.minplayers['@_value']
+        const maxPlayers = item.maxplayers['@_value']
+        setMinPlayers(minPlayers);
+        setMaxPlayers(maxPlayers)
+
+        const names = item.name;
+        for (let name of names) {
+            var isPrimary = name['@_type'] === "primary";
+            if (isPrimary) {
+                setGameName(name['@_value'])
+                break;
+            }
+        }
+    }
 
     return (
         <div>
