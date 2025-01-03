@@ -11,7 +11,6 @@ import { Col, Container, Row } from "react-bootstrap";
 
 function GameDBList() {
     const [games, setGames] = useState<Game[]>()
-    const [updateNeeded, setUpdateNeeded] = useState(true);
     // Initialize Firebase
     const app = initializeApp(FirebaseConfig);
     const db = getFirestore(app);
@@ -24,28 +23,9 @@ function GameDBList() {
                 game.id = doc.id;
                 return game;
             })
+            .sort((a, b) => a.name.localeCompare(b.name))
         setGames(gameDocs)
     });
-
-    // useEffect(() => {
-    //     async function updateGameList() {
-    //         const querySnapshot = await getDocs(collection(db, "games"));
-    //         const gameDocs = querySnapshot.docs
-    //             .map(doc => {
-    //                 const docData = doc.data();
-    //                 const game = docData as Game;
-    //                 game.id = doc.id;
-    //                 return game;
-    //             })
-    //         setGames(gameDocs)
-
-    //     }
-
-    //     if (updateNeeded) {
-    //         setUpdateNeeded(false)
-    //         updateGameList();
-    //     }
-    // })
 
     return (
         <Container style={{ marginTop: 100 }}>

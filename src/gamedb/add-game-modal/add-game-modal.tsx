@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { useState } from "react";
-import { Button, Col, Form, ListGroup, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, ListGroup, Row } from "react-bootstrap";
 import { PlusLg } from "react-bootstrap-icons";
 import Modal from 'react-bootstrap/Modal';
 import { XMLParser } from 'fast-xml-parser';
@@ -127,20 +127,21 @@ function AddGameModal() {
                         selectedId === undefined ?
                             <div>
                                 <Form onSubmit={onFormSubmit}>
-                                    <Row>
-                                        <Col>
-                                            <Form.Control
-                                                type="text"
-                                                placeholder="Search"
-                                                className=" mr-sm-2"
-                                                onChange={onInput}
-                                                value={value}
-                                            />
-                                        </Col>
-                                        <Col xs="2">
-                                            <Button style={{ width: "100%" }} type="submit">Search</Button>
-                                        </Col>
-                                    </Row>
+                                    <Container fluid>
+                                        <Row>
+                                            <Col>
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder="Search"
+                                                    onChange={onInput}
+                                                    value={value}
+                                                />
+                                            </Col>
+                                            <Col xs="12" md="3" className="mt-2 mt-sm-0">
+                                                <Button style={{ width: "100%" }} type="submit">Search</Button>
+                                            </Col>
+                                        </Row>
+                                    </Container>
                                 </Form>
                                 <ListGroup style={{ marginTop: 10 }}>
                                     {

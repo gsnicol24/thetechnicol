@@ -66,6 +66,9 @@ function GameDetails(
         } else {
             updateGameName(names['@_value'])
         }
+
+        const links = item.link;
+        console.log(links);
     }
 
     const updateGameName = (gameName: string) => {

@@ -7,7 +7,7 @@ import AddGameModal from '../add-game-modal/add-game-modal';
 function GameDBToolbar() {
 
     return (
-        <Navbar bg="light" expand="lg" fixed="top">
+        <Navbar bg="light" expand={true} fixed="top">
             <Container>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse className="justify-content-end">
