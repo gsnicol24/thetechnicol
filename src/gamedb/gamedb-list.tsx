@@ -36,7 +36,7 @@ function GameDBList() {
                             <Col key={game.id} xs={12} md="6" lg="3">
                                 <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
                                     <Card style={{ maxWidth: '18rem' }}>
-                                        <Card.Img variant="top" src={game.img} />
+                                        <Card.Img variant="top" src={game.img} style={{ minHeight: 250, objectFit: "cover" }} />
                                         <Card.Body>
                                             <Card.Title>{game.name}</Card.Title>
                                             <Card.Text>

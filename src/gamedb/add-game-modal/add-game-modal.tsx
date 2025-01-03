@@ -19,6 +19,8 @@ function AddGameModal() {
     const [gameName, setGameName] = useState<string | undefined>(undefined)
     const [minPlayers, setMinPlayers] = useState<number>(1)
     const [maxPlayers, setMaxPlayers] = useState<number>(1)
+    const [bestMinPlayers, setBestMinPlayers] = useState<number>(1)
+    const [bestMaxPlayers, setBestMaxPlayers] = useState<number>(1)
 
 
     const [selectedId, setSelectedId] = useState<string | undefined>(undefined)
@@ -42,11 +44,14 @@ function AddGameModal() {
 
 
     const handleSave = async () => {
+        console.log("saving document")
         const docRef = await addDoc(collection(db, "games"), {
             name: gameName,
             bggId: selectedId !== "manual" ? selectedId : undefined,
             minPlayers,
             maxPlayers,
+            bestMinPlayers,
+            bestMaxPlayers,
             img: imageUrl
         });
         console.log("Document written with ID: ", docRef.id);
@@ -163,7 +168,9 @@ function AddGameModal() {
                                     setGameName={setGameName}
                                     setImageUrl={setImageUrl}
                                     setMaxPlayers={setMaxPlayers}
-                                    setMinPlayers={setMinPlayers} />
+                                    setMinPlayers={setMinPlayers}
+                                    setBestMinPlayers={setBestMinPlayers}
+                                    setBestMaxPlayers={setBestMaxPlayers} />
                             </div>
                     }
 
