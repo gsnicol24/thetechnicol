@@ -44,7 +44,6 @@ function AddGameModal() {
 
 
     const handleSave = async () => {
-        console.log("saving document")
         const docRef = await addDoc(collection(db, "games"), {
             name: gameName,
             bggId: selectedId !== "manual" ? selectedId : undefined,
@@ -54,7 +53,6 @@ function AddGameModal() {
             bestMaxPlayers,
             img: imageUrl
         });
-        console.log("Document written with ID: ", docRef.id);
 
         handleClose();
     };
@@ -119,7 +117,7 @@ function AddGameModal() {
 
     return (
         <>
-            <Button onClick={handleShow} style={{ display: "flex" }}>
+            <Button onClick={handleShow} style={{ display: "flex" }} variant="outline-primary">
                 <PlusLg />
             </Button>
 

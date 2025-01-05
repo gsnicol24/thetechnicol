@@ -21,6 +21,8 @@ const analytics = getAnalytics(app);
 
 const TRACKING_ID = "UA-301142432"
 function GameDB() {
+    const [user, setUser] = useState<firebase.User | undefined>()
+
     useEffect(() => {
         ReactGA.initialize(TRACKING_ID);
         ReactGA.send({ hitType: "pageview", page: "/gamedb", title: "GameDB" });
@@ -49,6 +51,7 @@ function GameDB() {
 
     useEffect(() => {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+            setUser(!!user ? user : undefined)
             setIsSignedIn(!!user);
         });
         return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
@@ -64,7 +67,7 @@ function GameDB() {
 
     return (
         <div className="App">
-            <GameDBToolbar />
+            <GameDBToolbar User={user} />
             <GameDBList />
         </div>
     );
