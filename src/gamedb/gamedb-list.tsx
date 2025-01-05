@@ -6,8 +6,11 @@ import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Game } from "./models/game"
 import Card from 'react-bootstrap/Card';
-import { People } from "react-bootstrap-icons";
-import { Col, Container, Row } from "react-bootstrap";
+import { List, MenuApp, MenuButton, People } from "react-bootstrap-icons";
+import { Button, Col, Container, Dropdown, Row } from "react-bootstrap";
+import React from "react";
+import './gamedb-list.scss'
+import DeleteGameModal from "./delete-game-modal/delete-game-modal";
 
 function GameDBList() {
     const [games, setGames] = useState<Game[]>()
@@ -35,12 +38,12 @@ function GameDBList() {
                         return (
                             <Col key={game.id} xs={12} md="6" lg="3">
                                 <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
-                                    <Card style={{ maxWidth: '18rem' }}>
-                                        <Card.Img variant="top" src={game.img} style={{ minHeight: 250, objectFit: "cover" }} />
+                                    <Card style={{ minWidth: "90%", maxWidth: "90%" }}>
+                                        <Card.Img variant="top" src={game.img} style={{ height: 250, objectFit: "cover" }} />
                                         <Card.Body>
                                             <Card.Title>{game.name}</Card.Title>
                                             <Card.Text>
-                                                <div>
+                                                <p>
                                                     <People />
                                                     <span style={{ marginLeft: 6 }}>
                                                         {
@@ -49,12 +52,23 @@ function GameDBList() {
                                                                 game.minPlayers + " - " + game.maxPlayers
                                                         }
                                                     </span>
-                                                </div>
-                                                <div style={{ marginTop: 8 }}>
+                                                </p>
+                                                <p style={{ marginTop: 8 }}>
                                                     {
                                                         game.genre ? game.genre.join(", ") : <br />
                                                     }
-                                                </div>
+                                                </p>
+                                                <p>
+                                                    <Dropdown style={{ float: "right" }} >
+                                                        <Dropdown.Toggle variant="success" id="dropdown-basic" size="sm" style={{ display: "flex" }}>
+                                                            <List />
+                                                        </Dropdown.Toggle>
+
+                                                        <Dropdown.Menu>
+                                                            <DeleteGameModal selectedId={game.id} gameName={game.name} />
+                                                        </Dropdown.Menu>
+                                                    </Dropdown>
+                                                </p>
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>

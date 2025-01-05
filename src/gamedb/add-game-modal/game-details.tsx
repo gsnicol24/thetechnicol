@@ -56,42 +56,6 @@ function GameDetails(
         updateBestMaxPlayers(responseData.bestMaxPlayers)
     }
 
-    const parseResults = (response: AxiosResponse) => {
-        const responseData = response.data;
-
-        const options = {
-            ignoreAttributes: false,
-            attributeNamePrefix: '@_', // you have assign this so use this to access the attribute
-        };
-        const parser = new XMLParser(options)
-        const parsedData = parser.parse(responseData)
-        const item = parsedData.items.item
-
-        const imgUrl = item.image;
-        updateImageUrl(imgUrl)
-
-        const minPlayers = item.minplayers['@_value']
-        const maxPlayers = item.maxplayers['@_value']
-        updateMinPlayers(minPlayers);
-        updateMaxPlayers(maxPlayers)
-
-        const names = item.name;
-        if (Array.isArray(names)) {
-            for (let name of names) {
-                var isPrimary = name['@_type'] === "primary";
-                if (isPrimary) {
-                    updateGameName(name['@_value'])
-                    break;
-                }
-            }
-        } else {
-            updateGameName(names['@_value'])
-        }
-
-        const links = item.link;
-        console.log(links);
-    }
-
     const updateGameName = (gameName: string) => {
         setGameName(gameName);
         props.setGameName(gameName)
