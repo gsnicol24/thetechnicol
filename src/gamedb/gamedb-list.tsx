@@ -59,8 +59,8 @@ function GameDBList() {
                                                     }
                                                 </p>
                                                 <p>
-                                                    <Dropdown style={{ float: "right" }} >
-                                                        <Dropdown.Toggle variant="success" id="dropdown-basic" size="sm" style={{ display: "flex" }}>
+                                                    <Dropdown style={{ float: "right" }}  >
+                                                        <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" style={{ display: "flex" }}>
                                                             <List />
                                                         </Dropdown.Toggle>
 
