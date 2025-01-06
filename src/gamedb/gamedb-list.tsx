@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { Game } from "./models/game"
 import Card from 'react-bootstrap/Card';
 import { List, MenuApp, MenuButton, People } from "react-bootstrap-icons";
-import { Button, Col, Container, Dropdown, Row } from "react-bootstrap";
+import { Button, CardGroup, Col, Container, Dropdown, Row } from "react-bootstrap";
 import React from "react";
 import './gamedb-list.scss'
 import DeleteGameModal from "./delete-game-modal/delete-game-modal";
@@ -33,51 +33,64 @@ function GameDBList() {
     return (
         <Container style={{ marginTop: 100 }}>
             <Row>
-                {
-                    games?.map((game) => {
-                        return (
-                            <Col key={game.id} xs={12} md="6" lg="3">
-                                <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
-                                    <Card style={{ minWidth: "90%", maxWidth: "90%" }}>
-                                        <Card.Img variant="top" src={game.img} style={{ height: 250, objectFit: "cover" }} />
-                                        <Card.Body>
-                                            <Card.Title>{game.name}</Card.Title>
-                                            <Card.Text>
-                                                <p>
-                                                    <People />
-                                                    <span style={{ marginLeft: 6 }}>
+                <CardGroup>
+                    {
+                        games?.map((game) => {
+                            return (
+                                <Col key={game.id} xs={12} md="6" lg="3">
+                                    <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+                                        <Card style={{ minWidth: "90%", maxWidth: "90%" }}>
+                                            <Card.Img variant="top" src={game.img ?? "question-mark.jpg"} style={{ height: 250, objectFit: "cover" }} />
+                                            <Card.Body>
+                                                <Card.Title>{game.name}</Card.Title>
+                                                <Card.Text>
+                                                    <p>
+                                                        <People />
+                                                        <span style={{ marginLeft: 6 }}>
+                                                            {
+                                                                game.minPlayers === game.maxPlayers ?
+                                                                    game.minPlayers :
+                                                                    game.minPlayers + " - " + game.maxPlayers
+                                                            }
+                                                        </span>
+                                                    </p>
+                                                    <p style={{ marginTop: 8 }}>
                                                         {
-                                                            game.minPlayers === game.maxPlayers ?
-                                                                game.minPlayers :
-                                                                game.minPlayers + " - " + game.maxPlayers
+                                                            game.genres && game.genres.length > 0 ? game.genres.join(", ") : <br />
                                                         }
-                                                    </span>
-                                                </p>
-                                                <p style={{ marginTop: 8 }}>
+                                                    </p>
+                                                    <p>
+                                                        <Dropdown style={{ float: "right" }}  >
+                                                            <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" style={{ display: "flex" }}>
+                                                                <List />
+                                                            </Dropdown.Toggle>
+
+                                                            <Dropdown.Menu>
+                                                                <DeleteGameModal selectedId={game.id} gameName={game.name} />
+                                                            </Dropdown.Menu>
+                                                        </Dropdown>
+                                                    </p>
+                                                </Card.Text>
+                                            </Card.Body>
+                                            <Card.Footer>
+
+                                                <span style={{ float: "right" }}>
                                                     {
-                                                        game.genres ? game.genres.join(", ") : <br />
+                                                        game.bggId
+                                                            ? "BGG: " + game.bggId
+                                                            : "Manual Entry"
                                                     }
-                                                </p>
-                                                <p>
-                                                    <Dropdown style={{ float: "right" }}  >
-                                                        <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" style={{ display: "flex" }}>
-                                                            <List />
-                                                        </Dropdown.Toggle>
+                                                </span>
+                                            </Card.Footer>
+                                        </Card>
+                                    </div>
+                                </Col >
+                            )
+                        })
+                    }
 
-                                                        <Dropdown.Menu>
-                                                            <DeleteGameModal selectedId={game.id} gameName={game.name} />
-                                                        </Dropdown.Menu>
-                                                    </Dropdown>
-                                                </p>
-                                            </Card.Text>
-                                        </Card.Body>
-                                    </Card>
-                                </div>
-                            </Col >
-                        )
-                    })
-                }
 
+                </CardGroup>
             </Row >
         </Container >
     );

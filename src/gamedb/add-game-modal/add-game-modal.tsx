@@ -47,12 +47,12 @@ function AddGameModal() {
     const handleSave = async () => {
         const docRef = await addDoc(collection(db, "games"), {
             name: gameName,
-            bggId: selectedId !== "manual" ? selectedId : undefined,
+            bggId: selectedId !== "manual" ? selectedId : null,
             minPlayers,
             maxPlayers,
             bestMinPlayers,
             bestMaxPlayers,
-            img: imageUrl,
+            img: imageUrl ?? null,
             genres
         });
 
