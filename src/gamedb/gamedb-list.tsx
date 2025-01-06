@@ -37,12 +37,25 @@ function GameDBList() {
                     {
                         games?.map((game) => {
                             return (
-                                <Col key={game.id} xs={12} md="6" lg="3">
+                                <Col key={game.id} xs={12} sm={6} lg={4} xl={3}>
                                     <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
                                         <Card style={{ minWidth: "90%", maxWidth: "90%" }}>
                                             <Card.Img variant="top" src={game.img ?? "question-mark.jpg"} style={{ height: 250, objectFit: "cover" }} />
+                                            <Card.Header>
+                                                <span>
+                                                    {game.name}
+                                                </span>
+                                                <Dropdown style={{ float: "right" }}  >
+                                                    <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" style={{ display: "flex" }}>
+                                                        <List />
+                                                    </Dropdown.Toggle>
+
+                                                    <Dropdown.Menu>
+                                                        <DeleteGameModal selectedId={game.id} gameName={game.name} />
+                                                    </Dropdown.Menu>
+                                                </Dropdown>
+                                            </Card.Header>
                                             <Card.Body>
-                                                <Card.Title>{game.name}</Card.Title>
                                                 <Card.Text>
                                                     <p>
                                                         <People />
@@ -60,15 +73,6 @@ function GameDBList() {
                                                         }
                                                     </p>
                                                     <p>
-                                                        <Dropdown style={{ float: "right" }}  >
-                                                            <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" style={{ display: "flex" }}>
-                                                                <List />
-                                                            </Dropdown.Toggle>
-
-                                                            <Dropdown.Menu>
-                                                                <DeleteGameModal selectedId={game.id} gameName={game.name} />
-                                                            </Dropdown.Menu>
-                                                        </Dropdown>
                                                     </p>
                                                 </Card.Text>
                                             </Card.Body>
