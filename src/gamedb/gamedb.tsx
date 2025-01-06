@@ -22,6 +22,7 @@ const analytics = getAnalytics(app);
 const TRACKING_ID = "UA-301142432"
 function GameDB() {
     const [user, setUser] = useState<firebase.User | undefined>()
+    const [searchText, setSearchText] = useState<string | undefined>()
 
     useEffect(() => {
         ReactGA.initialize(TRACKING_ID);
@@ -67,8 +68,8 @@ function GameDB() {
 
     return (
         <div className="App">
-            <GameDBToolbar User={user} />
-            <GameDBList />
+            <GameDBToolbar User={user} setSearchText={setSearchText} />
+            <GameDBList searchText={searchText} />
         </div>
     );
 }

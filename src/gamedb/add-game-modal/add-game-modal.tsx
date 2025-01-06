@@ -125,7 +125,7 @@ function AddGameModal() {
 
     return (
         <>
-            <Button onClick={handleShow} style={{ display: "flex" }} variant="outline-primary">
+            <Button onClick={handleShow} style={{ display: "flex", alignItems: "center" }} variant="outline-primary">
                 <PlusLg />
             </Button>
 
