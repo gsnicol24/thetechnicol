@@ -6,7 +6,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Game } from "./models/game"
 import Card from 'react-bootstrap/Card';
-import { List, MenuApp, MenuButton, People } from "react-bootstrap-icons";
+import { List, MenuApp, MenuButton, People, Star, StarFill } from "react-bootstrap-icons";
 import { Button, CardGroup, Col, Container, Dropdown, Row } from "react-bootstrap";
 import React from "react";
 import './gamedb-list.scss'
@@ -66,6 +66,21 @@ function GameDBList() {
                                                                     game.minPlayers + " - " + game.maxPlayers
                                                             }
                                                         </span>
+
+                                                        {
+                                                            game.bestMinPlayers && game.maxPlayers &&
+                                                            <span style={{ marginLeft: 6, display: "inline-flex", alignItems: "center" }}>
+                                                                (
+                                                                <StarFill size="12" style={{ marginRight: 4, marginLeft: 4, marginTop: 2 }} />
+                                                                {
+                                                                    game.bestMinPlayers === game.bestMaxPlayers ?
+                                                                        game.bestMinPlayers :
+                                                                        game.bestMinPlayers + " - " + game.bestMaxPlayers
+                                                                }
+                                                                <span style={{ whiteSpace: "pre" }}> )</span>
+                                                            </span>
+                                                        }
+
                                                     </p>
                                                     <p style={{ marginTop: 8 }}>
                                                         {
