@@ -1,9 +1,11 @@
 import axios, { Axios, AxiosResponse } from "axios";
 import { XMLParser } from "fast-xml-parser";
 import { useEffect, useState } from "react";
-import { Container, Row, Col, Form, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Form, Spinner, Button } from "react-bootstrap";
 import { BGGSearchResult } from "../models/bgg-search-result";
 import React from "react";
+import { X } from "react-bootstrap-icons";
+import './game-details.scss'
 
 function GameDetails(
     props: {
@@ -13,7 +15,8 @@ function GameDetails(
         setMinPlayers: React.Dispatch<React.SetStateAction<number>>,
         setMaxPlayers: React.Dispatch<React.SetStateAction<number>>,
         setBestMinPlayers: React.Dispatch<React.SetStateAction<number>>,
-        setBestMaxPlayers: React.Dispatch<React.SetStateAction<number>>
+        setBestMaxPlayers: React.Dispatch<React.SetStateAction<number>>,
+        setGenres: React.Dispatch<React.SetStateAction<string[]>>
     }) {
 
     const [loading, setLoading] = useState<boolean>(true)
@@ -24,6 +27,8 @@ function GameDetails(
     const [maxPlayers, setMaxPlayers] = useState<number>(1)
     const [bestMinPlayers, setBestMinPlayers] = useState<number>(1)
     const [bestMaxPlayers, setBestMaxPlayers] = useState<number>(1)
+    const [newGenre, setNewGenre] = useState<string>("")
+    const [genres, setGenres] = useState<string[]>([])
 
 
     useEffect(() => {
@@ -54,6 +59,7 @@ function GameDetails(
         updateMaxPlayers(responseData.maxPlayers)
         updateBestMinPlayers(responseData.bestMinPlayers)
         updateBestMaxPlayers(responseData.bestMaxPlayers)
+        updateGenres(responseData.genres)
     }
 
     const updateGameName = (gameName: string) => {
@@ -84,6 +90,23 @@ function GameDetails(
     const updateBestMaxPlayers = (number: number) => {
         setBestMaxPlayers(number);
         props.setBestMaxPlayers(number)
+    }
+
+    const addNewGenre = () => {
+        if (!!newGenre) {
+            genres.push(newGenre);
+            updateGenres(genres);
+            setNewGenre("")
+        }
+    }
+
+    const removeGenre = (genre: string) => {
+        updateGenres(genres.filter(g => g !== genre))
+    }
+
+    const updateGenres = (genres: string[]) => {
+        setGenres(genres);
+        props.setGenres(genres);
     }
 
     return (
@@ -180,13 +203,45 @@ function GameDetails(
                                     />
                                 </Col>
                             </Row>
+                            <Row>
+                                <Col>
+                                    <Form.Label htmlFor="newGenre">Genres</Form.Label>
+                                    <Form.Control
+                                        id="newGenre"
+                                        type="text"
+                                        className=" mr-sm-2"
+                                        onChange={(e) => setNewGenre(e.target.value)}
+                                        value={newGenre}
+                                    />
+                                </Col>
+                                <Col xs={3} style={{ alignContent: "end" }}>
+                                    <Button style={{ width: "100%" }} onClick={addNewGenre}>
+                                        Add new genre
+                                    </Button>
+                                </Col>
+                            </Row>
+                            <div style={{ display: "flex", marginTop: 16 }}>
+                                {
+                                    genres.map((genre, idx) => {
+                                        return (
+                                            <span className="genre" key={idx}>
+                                                {genre}
+                                                <Button variant="outline-danger" style={{ display: "inline-flex", marginLeft: 8 }} onClick={() => removeGenre(genre)}>
+                                                    <X />
+                                                </Button>
+                                            </span>
+                                        )
+                                    })
+                                }
+                            </div>
+
                         </div>
                     </React.Fragment>
 
                 }
             </Form>
 
-        </div>
+        </div >
     )
 }
 

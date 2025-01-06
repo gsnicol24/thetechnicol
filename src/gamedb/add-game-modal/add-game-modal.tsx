@@ -21,6 +21,7 @@ function AddGameModal() {
     const [maxPlayers, setMaxPlayers] = useState<number>(1)
     const [bestMinPlayers, setBestMinPlayers] = useState<number>(1)
     const [bestMaxPlayers, setBestMaxPlayers] = useState<number>(1)
+    const [genres, setGenres] = useState<string[]>([])
 
 
     const [selectedId, setSelectedId] = useState<string | undefined>(undefined)
@@ -51,8 +52,11 @@ function AddGameModal() {
             maxPlayers,
             bestMinPlayers,
             bestMaxPlayers,
-            img: imageUrl
+            img: imageUrl,
+            genres
         });
+
+        console.log(docRef.id)
 
         handleClose();
     };
@@ -168,7 +172,8 @@ function AddGameModal() {
                                     setMaxPlayers={setMaxPlayers}
                                     setMinPlayers={setMinPlayers}
                                     setBestMinPlayers={setBestMinPlayers}
-                                    setBestMaxPlayers={setBestMaxPlayers} />
+                                    setBestMaxPlayers={setBestMaxPlayers}
+                                    setGenres={setGenres} />
                             </div>
                     }
 

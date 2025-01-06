@@ -55,7 +55,7 @@ function GameDBList() {
                                                 </p>
                                                 <p style={{ marginTop: 8 }}>
                                                     {
-                                                        game.genre ? game.genre.join(", ") : <br />
+                                                        game.genres ? game.genres.join(", ") : <br />
                                                     }
                                                 </p>
                                                 <p>

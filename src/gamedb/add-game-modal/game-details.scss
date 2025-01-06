@@ -1,0 +1,9 @@
+.genre {
+    padding: 4px 8px;
+    border: 1px solid gray;
+    border-radius: 8px;
+}
+
+.genre:not(:first-of-type) {
+    margin-left: 8px;
+}
