@@ -6,6 +6,7 @@ import AddGameModal from '../add-game-modal/add-game-modal';
 import firebase from 'firebase/compat/app';
 import { Form } from 'react-bootstrap';
 import { useState } from 'react';
+import FilterModal from '../filter-modal/filter-modal';
 
 function GameDBToolbar(props: {
     User: firebase.User | undefined,
@@ -38,6 +39,8 @@ function GameDBToolbar(props: {
                                 onChange={e => updateSearchText(e.target.value)}
                             />
                         </span>
+                        <FilterModal />
+                        <span style={{ marginRight: 8 }} />
                         <AddGameModal />
                     </Nav>
                 </Navbar.Collapse>
