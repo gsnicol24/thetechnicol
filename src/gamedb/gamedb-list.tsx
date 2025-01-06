@@ -6,7 +6,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Game } from "./models/game"
 import Card from 'react-bootstrap/Card';
-import { List, MenuApp, MenuButton, People, Star, StarFill } from "react-bootstrap-icons";
+import { Clock, List, MenuApp, MenuButton, People, Star, StarFill } from "react-bootstrap-icons";
 import { Button, CardGroup, Col, Container, Dropdown, Row } from "react-bootstrap";
 import React from "react";
 import './gamedb-list.scss'
@@ -57,8 +57,8 @@ function GameDBList() {
                                             </Card.Header>
                                             <Card.Body>
                                                 <Card.Text>
-                                                    <p>
-                                                        <People />
+                                                    <p style={{ marginBottom: 8 }}>
+                                                        <People style={{ marginBottom: 4 }} />
                                                         <span style={{ marginLeft: 6 }}>
                                                             {
                                                                 game.minPlayers === game.maxPlayers ?
@@ -78,6 +78,21 @@ function GameDBList() {
                                                                         game.bestMinPlayers + " - " + game.bestMaxPlayers
                                                                 }
                                                                 <span style={{ whiteSpace: "pre" }}> )</span>
+                                                            </span>
+                                                        }
+
+                                                        {
+                                                            game.minPlaytime && game.maxPlaytime &&
+                                                            <span style={{ float: "right" }}>
+                                                                <Clock style={{ marginRight: 6 }} />
+                                                                <span style={{ marginBottom: 4 }}>
+
+                                                                    {
+                                                                        game.minPlaytime === game.maxPlaytime ?
+                                                                            game.minPlaytime :
+                                                                            game.minPlaytime + " - " + game.maxPlaytime
+                                                                    }
+                                                                </span>
                                                             </span>
                                                         }
 

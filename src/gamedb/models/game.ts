@@ -6,6 +6,8 @@ export interface Game {
     maxPlayers: number;
     bestMinPlayers: number;
     bestMaxPlayers: number;
+    minPlaytime: number;
+    maxPlaytime: number;
     img: string;
     genres: string[]
 }

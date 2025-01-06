@@ -14,6 +14,8 @@ function GameDetails(
         setGameName: React.Dispatch<React.SetStateAction<string | undefined>>,
         setMinPlayers: React.Dispatch<React.SetStateAction<number>>,
         setMaxPlayers: React.Dispatch<React.SetStateAction<number>>,
+        setMinPlaytime: React.Dispatch<React.SetStateAction<number>>,
+        setMaxPlaytime: React.Dispatch<React.SetStateAction<number>>,
         setBestMinPlayers: React.Dispatch<React.SetStateAction<number>>,
         setBestMaxPlayers: React.Dispatch<React.SetStateAction<number>>,
         setGenres: React.Dispatch<React.SetStateAction<string[]>>
@@ -25,6 +27,8 @@ function GameDetails(
     const [gameName, setGameName] = useState<string | undefined>("")
     const [minPlayers, setMinPlayers] = useState<number>(1)
     const [maxPlayers, setMaxPlayers] = useState<number>(1)
+    const [minPlaytime, setMinPlaytime] = useState<number>(1)
+    const [maxPlaytime, setMaxPlaytime] = useState<number>(1)
     const [bestMinPlayers, setBestMinPlayers] = useState<number>(1)
     const [bestMaxPlayers, setBestMaxPlayers] = useState<number>(1)
     const [newGenre, setNewGenre] = useState<string>("")
@@ -59,6 +63,8 @@ function GameDetails(
         updateMaxPlayers(responseData.maxPlayers)
         updateBestMinPlayers(responseData.bestMinPlayers)
         updateBestMaxPlayers(responseData.bestMaxPlayers)
+        updateMinPlaytime(responseData.minPlaytime)
+        updateMaxPlaytime(responseData.maxPlaytime)
         updateGenres(responseData.genres)
     }
 
@@ -80,6 +86,16 @@ function GameDetails(
     const updateMaxPlayers = (number: number) => {
         setMaxPlayers(number);
         props.setMaxPlayers(number)
+    }
+
+    const updateMinPlaytime = (number: number) => {
+        setMinPlaytime(number);
+        props.setMinPlaytime(number)
+    }
+
+    const updateMaxPlaytime = (number: number) => {
+        setMaxPlaytime(number);
+        props.setMaxPlaytime(number)
     }
 
     const updateBestMinPlayers = (number: number) => {
@@ -188,6 +204,30 @@ function GameDetails(
                                         className=" mr-sm-2"
                                         onChange={(e) => updateBestMaxPlayers(e.target.value as unknown as number)}
                                         value={bestMaxPlayers}
+                                    />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <Form.Label htmlFor="minPlaytime">Min Playtime</Form.Label>
+                                    <Form.Control
+                                        id="minPlaytime"
+                                        type="number"
+                                        min={1}
+                                        className=" mr-sm-2"
+                                        onChange={(e) => updateMinPlaytime(e.target.value as unknown as number)}
+                                        value={minPlaytime}
+                                    />
+                                </Col>
+                                <Col>
+                                    <Form.Label htmlFor="maxPlaytime">Max Playtime</Form.Label>
+                                    <Form.Control
+                                        id="maxPlaytime"
+                                        type="number"
+                                        min={1}
+                                        className=" mr-sm-2"
+                                        onChange={(e) => updateMaxPlaytime(e.target.value as unknown as number)}
+                                        value={maxPlaytime}
                                     />
                                 </Col>
                             </Row>
