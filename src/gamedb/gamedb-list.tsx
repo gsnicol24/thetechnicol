@@ -40,7 +40,7 @@ function GameDBList() {
                                 <Col key={game.id} xs={12} sm={6} lg={4} xl={3}>
                                     <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
                                         <Card style={{ minWidth: "90%", maxWidth: "90%" }}>
-                                            <Card.Img variant="top" src={game.img ?? "question-mark.jpg"} style={{ height: 250, objectFit: "cover" }} />
+                                            <Card.Img variant="top" src={game.img ?? "question-mark.jpg"} style={{ height: 250 }} />
                                             <Card.Header>
                                                 <span>
                                                     {game.name}
