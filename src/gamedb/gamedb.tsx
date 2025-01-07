@@ -15,6 +15,9 @@ import FirebaseConfig from './firebase-config';
 import 'firebase/compat/auth';
 import GameDBToolbar from './toolbar/toolbar';
 import GameDBList from './gamedb-list';
+import { Game } from './models/game';
+import { getFirestore, onSnapshot, collection } from 'firebase/firestore';
+import { FilterQuery } from './models/filter';
 
 const app = initializeApp(FirebaseConfig);
 const analytics = getAnalytics(app);
@@ -22,7 +25,47 @@ const analytics = getAnalytics(app);
 const TRACKING_ID = "UA-301142432"
 function GameDB() {
     const [user, setUser] = useState<firebase.User | undefined>()
-    const [searchText, setSearchText] = useState<string | undefined>()
+    const [games, setGames] = useState<Game[]>([])
+
+    const [filter, setFilter] = useState<FilterQuery | undefined>(undefined)
+
+    const [maxPlaytime, setMaxPlaytime] = useState(Number.MIN_VALUE);
+    const [minPlaytime, setMinPlaytime] = useState(Number.MAX_VALUE);
+    // Initialize Firebase
+    const app = initializeApp(FirebaseConfig);
+    const db = getFirestore(app);
+
+    useEffect(() => {
+        const unsub = onSnapshot(collection(db, "games"), snapshot => {
+            var gameDocs = snapshot.docs
+                .map(doc => {
+                    const docData = doc.data();
+                    const game = docData as Game;
+                    game.id = doc.id;
+                    return game;
+                })
+                .sort((a, b) => a.name.localeCompare(b.name))
+
+            if (!!filter?.searchText) {
+                gameDocs = gameDocs.filter(gameDoc => gameDoc.name.toUpperCase().indexOf(filter.searchText!.toUpperCase()) > -1)
+            }
+
+            console.log(filter);
+
+            gameDocs.forEach(game => {
+                if (maxPlaytime < game.maxPlaytime) {
+                    setMaxPlaytime(game.maxPlaytime)
+                }
+
+                if (minPlaytime > game.minPlaytime) {
+                    console.log("Updating min playtime from " + minPlaytime + " to " + game.minPlaytime)
+                    setMinPlaytime(game.minPlaytime)
+                }
+            })
+
+            setGames(gameDocs)
+        });
+    })
 
     useEffect(() => {
         ReactGA.initialize(TRACKING_ID);
@@ -68,8 +111,8 @@ function GameDB() {
 
     return (
         <div className="App">
-            <GameDBToolbar User={user} setSearchText={setSearchText} />
-            <GameDBList searchText={searchText} />
+            <GameDBToolbar User={user} setFilterQuery={setFilter} minPlaytime={minPlaytime} maxPlaytime={maxPlaytime} />
+            <GameDBList games={games} />
         </div>
     );
 }

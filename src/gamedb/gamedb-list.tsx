@@ -12,38 +12,13 @@ import React from "react";
 import './gamedb-list.scss'
 import DeleteGameModal from "./delete-game-modal/delete-game-modal";
 
-function GameDBList(props: { searchText: string | undefined }) {
-    const [games, setGames] = useState<Game[]>()
-    // Initialize Firebase
-    const app = initializeApp(FirebaseConfig);
-    const db = getFirestore(app);
-
-    useEffect(() => {
-        const unsub = onSnapshot(collection(db, "games"), snapshot => {
-            var gameDocs = snapshot.docs
-                .map(doc => {
-                    const docData = doc.data();
-                    const game = docData as Game;
-                    game.id = doc.id;
-                    return game;
-                })
-                .sort((a, b) => a.name.localeCompare(b.name))
-
-            if (!!props.searchText) {
-                gameDocs = gameDocs.filter(gameDoc => gameDoc.name.toUpperCase().indexOf(props.searchText!.toUpperCase()) > -1)
-            }
-            setGames(gameDocs)
-        });
-    })
-
-
-
+function GameDBList(props: { games: Game[] }) {
     return (
         <Container style={{ marginTop: 100 }}>
             <Row>
                 <CardGroup>
                     {
-                        games?.map((game) => {
+                        props.games?.map((game) => {
                             return (
                                 <Col key={game.id} xs={12} sm={6} lg={4} xl={3}>
                                     <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>

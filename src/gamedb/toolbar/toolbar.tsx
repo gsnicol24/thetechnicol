@@ -7,17 +7,47 @@ import firebase from 'firebase/compat/app';
 import { Form } from 'react-bootstrap';
 import { useState } from 'react';
 import FilterModal from '../filter-modal/filter-modal';
+import { FilterQuery } from '../models/filter';
 
 function GameDBToolbar(props: {
     User: firebase.User | undefined,
-    setSearchText: React.Dispatch<React.SetStateAction<string | undefined>>
+    setFilterQuery: React.Dispatch<React.SetStateAction<FilterQuery | undefined>>,
+    minPlaytime: number,
+    maxPlaytime: number;
 }) {
 
     const [searchText, setSearchText] = useState<string | undefined>()
+    const [filterQuery, setFilterQuery] = useState<FilterQuery | undefined>(undefined)
 
     const updateSearchText = (searchText: string) => {
         setSearchText(searchText);
-        props.setSearchText(searchText)
+        const query = getFilterQuery()
+        query.searchText = searchText;
+        updateFilterQuery(query);
+    }
+
+    const getFilterQuery = () => {
+        if (!filterQuery) {
+            return {} as FilterQuery
+        }
+        return filterQuery
+    }
+
+    const updateFilterQuery = (query: FilterQuery) => {
+        setFilterQuery(query);
+        props.setFilterQuery(query)
+    }
+
+    const setPlayers = (players: number) => {
+        const query = getFilterQuery()
+        query.players = players;
+        updateFilterQuery(query);
+    }
+
+    const setPlaytime = (playtime: number) => {
+        const query = getFilterQuery()
+        query.playtime = playtime;
+        updateFilterQuery(query);
     }
 
     return (
@@ -39,7 +69,7 @@ function GameDBToolbar(props: {
                                 onChange={e => updateSearchText(e.target.value)}
                             />
                         </span>
-                        <FilterModal />
+                        <FilterModal minPlaytime={props.minPlaytime} maxPlaytime={props.maxPlaytime} updatePlayerCountFilter={setPlayers} updatePlaytimeFilter={setPlaytime} />
                         <span style={{ marginRight: 8 }} />
                         <AddGameModal />
                     </Nav>

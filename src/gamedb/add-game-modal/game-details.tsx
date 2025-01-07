@@ -167,7 +167,7 @@ function GameDetails(
                                         type="number"
                                         min={1}
                                         className=" mr-sm-2"
-                                        onChange={(e) => updateMinPlayers(e.target.value as unknown as number)}
+                                        onChange={(e) => updateMinPlayers(Number(e.target.value))}
                                         value={minPlayers}
                                     />
                                 </Col>
@@ -178,7 +178,7 @@ function GameDetails(
                                         type="number"
                                         min={1}
                                         className=" mr-sm-2"
-                                        onChange={(e) => updateMaxPlayers(e.target.value as unknown as number)}
+                                        onChange={(e) => updateMaxPlayers(Number(e.target.value))}
                                         value={maxPlayers}
                                     />
                                 </Col>
@@ -191,7 +191,7 @@ function GameDetails(
                                         type="number"
                                         min={1}
                                         className=" mr-sm-2"
-                                        onChange={(e) => updateBestMinPlayers(e.target.value as unknown as number)}
+                                        onChange={(e) => updateBestMinPlayers(Number(e.target.value))}
                                         value={bestMinPlayers}
                                     />
                                 </Col>
@@ -202,7 +202,7 @@ function GameDetails(
                                         type="number"
                                         min={1}
                                         className=" mr-sm-2"
-                                        onChange={(e) => updateBestMaxPlayers(e.target.value as unknown as number)}
+                                        onChange={(e) => updateBestMaxPlayers(Number(e.target.value))}
                                         value={bestMaxPlayers}
                                     />
                                 </Col>
@@ -215,7 +215,7 @@ function GameDetails(
                                         type="number"
                                         min={1}
                                         className=" mr-sm-2"
-                                        onChange={(e) => updateMinPlaytime(e.target.value as unknown as number)}
+                                        onChange={(e) => updateMinPlaytime(Number(e.target.value))}
                                         value={minPlaytime}
                                     />
                                 </Col>
@@ -226,7 +226,7 @@ function GameDetails(
                                         type="number"
                                         min={1}
                                         className=" mr-sm-2"
-                                        onChange={(e) => updateMaxPlaytime(e.target.value as unknown as number)}
+                                        onChange={(e) => updateMaxPlaytime(Number(e.target.value))}
                                         value={maxPlaytime}
                                     />
                                 </Col>
