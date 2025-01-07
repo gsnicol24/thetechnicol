@@ -3,7 +3,6 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { Filter, PlusLg } from "react-bootstrap-icons";
 import FormRange from 'react-bootstrap/FormRange'
 import MultiSelectDropdown from "../multi-select-dropdown/multi-select-dropdown";
-var Multiselect = require('react-bootstrap-multiselect');
 
 function FilterModal(props: {
     minPlaytime: number,
