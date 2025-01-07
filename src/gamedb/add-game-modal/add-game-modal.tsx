@@ -60,8 +60,6 @@ function AddGameModal() {
             genres
         });
 
-        console.log(docRef.id)
-
         handleClose();
     };
 

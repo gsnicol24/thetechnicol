@@ -66,7 +66,6 @@ function GameDB() {
 
             if (!!filter) {
                 var { searchText, players, playtime, genres } = filter;
-
                 gameDocs = gameDocs.filter(gameDoc => {
                     if (!!searchText && gameDoc.name.toUpperCase().indexOf(filter.searchText!.toUpperCase()) === -1) {
                         return false;

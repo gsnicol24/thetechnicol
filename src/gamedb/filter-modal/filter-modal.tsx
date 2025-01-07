@@ -3,6 +3,7 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { Filter, PlusLg } from "react-bootstrap-icons";
 import FormRange from 'react-bootstrap/FormRange'
 import MultiSelectDropdown from "../multi-select-dropdown/multi-select-dropdown";
+import { FilterQuery } from "../models/filter";
 
 function FilterModal(props: {
     minPlaytime: number,
@@ -10,7 +11,8 @@ function FilterModal(props: {
     genres: string[],
     updatePlayerCountFilter: (players: number | undefined) => void,
     updatePlaytimeFilter: (playtime: number | undefined) => void,
-    updateGenres: (genres: string[] | undefined) => void
+    updateGenres: (genres: string[] | undefined) => void,
+    updateFilter: (query: Partial<FilterQuery>) => void
 }) {
     const [filterOnPlayers, setFilterOnPlayers] = useState(false)
     const [filterOnPlaytime, setFilterOnPlaytime] = useState(false)
@@ -37,14 +39,20 @@ function FilterModal(props: {
         setShow(false);
     }
     const handleSave = () => {
+        const filterQuery: Partial<FilterQuery> = {
+            players: filterOnPlayers ? numberOfPlayers : undefined,
+            playtime: filterOnPlaytime ? playtime : undefined,
+            genres: []
+        }
+
         props.updatePlayerCountFilter(filterOnPlayers ? numberOfPlayers : undefined)
         props.updatePlaytimeFilter(filterOnPlaytime ? playtime : undefined)
 
         if (!!selectedGenres && selectedGenres.length > 0) {
-            props.updateGenres(selectedGenres)
-        } else {
-            props.updateGenres(undefined)
+            filterQuery.genres = selectedGenres
         }
+
+        props.updateFilter(filterQuery)
 
         setShow(false);
     }

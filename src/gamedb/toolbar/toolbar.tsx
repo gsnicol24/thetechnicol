@@ -40,6 +40,17 @@ function GameDBToolbar(props: {
         props.setFilterQuery(query)
     }
 
+    const updateQueryWithExistingSearchText = (query: Partial<FilterQuery>) => {
+        updateFilterQuery(
+            {
+                searchText,
+                players: query.players,
+                playtime: query.playtime,
+                genres: query.genres
+            }
+        )
+    }
+
     const setPlayers = (players: number | undefined) => {
         const query = getFilterQuery()
         query.players = players;
@@ -84,7 +95,8 @@ function GameDBToolbar(props: {
                                 genres={props.genres}
                                 updatePlayerCountFilter={setPlayers}
                                 updatePlaytimeFilter={setPlaytime}
-                                updateGenres={updateGenres} />
+                                updateGenres={updateGenres}
+                                updateFilter={updateQueryWithExistingSearchText} />
                             <span style={{ marginRight: 8 }} />
                             <AddGameModal />
                         </Nav>
