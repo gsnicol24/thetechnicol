@@ -18,6 +18,8 @@ import GameDBList from './gamedb-list';
 import { Game } from './models/game';
 import { getFirestore, onSnapshot, collection } from 'firebase/firestore';
 import { FilterQuery } from './models/filter';
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import { X } from 'react-bootstrap-icons';
 
 const app = initializeApp(FirebaseConfig);
 const analytics = getAnalytics(app);
@@ -46,11 +48,25 @@ function GameDB() {
                 })
                 .sort((a, b) => a.name.localeCompare(b.name))
 
-            if (!!filter?.searchText) {
-                gameDocs = gameDocs.filter(gameDoc => gameDoc.name.toUpperCase().indexOf(filter.searchText!.toUpperCase()) > -1)
-            }
+            if (!!filter) {
+                var { searchText, players, playtime } = filter;
 
-            console.log(filter);
+                gameDocs = gameDocs.filter(gameDoc => {
+                    if (!!searchText && gameDoc.name.toUpperCase().indexOf(filter.searchText!.toUpperCase()) === -1) {
+                        return false;
+                    }
+
+                    if (!!players && (gameDoc.maxPlayers < players || gameDoc.minPlayers > players)) {
+                        return false;
+                    }
+
+                    if (!!playtime && (gameDoc.minPlaytime > playtime)) {
+                        return false;
+                    }
+
+                    return true;
+                });
+            }
 
             gameDocs.forEach(game => {
                 if (maxPlaytime < game.maxPlaytime) {
@@ -112,6 +128,38 @@ function GameDB() {
     return (
         <div className="App">
             <GameDBToolbar User={user} setFilterQuery={setFilter} minPlaytime={minPlaytime} maxPlaytime={maxPlaytime} />
+            <div style={{ marginTop: 100 }}>
+                <Container>
+                    <Row>
+                        <Col>
+                            {
+                                (!!filter?.players || !!filter?.playtime) &&
+                                <div style={{ marginBottom: 16 }}>
+                                    <div style={{ marginBottom: 8 }}>Filtering on:</div>
+                                    {
+                                        !!filter.players &&
+                                        <div style={{ border: "1px solid gray", padding: "5px 10px", borderRadius: 10, display: 'inline-block', marginRight: 8 }}>
+                                            <b>Players:</b> {filter.players}
+                                            <Button variant='outline-danger' style={{ marginLeft: 8, display: "inline-flex", alignItems: "center" }} size='sm' onClick={() => filter.players = undefined}>
+                                                <X />
+                                            </Button>
+                                        </div>
+                                    }
+                                    {
+                                        !!filter.playtime &&
+                                        <div style={{ border: "1px solid gray", padding: "5px 10px", borderRadius: 10, display: 'inline-block' }}>
+                                            <b>Playtime:</b> {filter.playtime}
+                                            <Button variant='outline-danger' style={{ marginLeft: 8, display: "inline-flex", alignItems: "center" }} size='sm' onClick={() => filter.playtime = undefined}>
+                                                <X />
+                                            </Button>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
             <GameDBList games={games} />
         </div>
     );

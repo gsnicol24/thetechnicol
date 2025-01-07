@@ -8,6 +8,7 @@ import { Form } from 'react-bootstrap';
 import { useState } from 'react';
 import FilterModal from '../filter-modal/filter-modal';
 import { FilterQuery } from '../models/filter';
+import React from 'react';
 
 function GameDBToolbar(props: {
     User: firebase.User | undefined,
@@ -51,31 +52,33 @@ function GameDBToolbar(props: {
     }
 
     return (
-        <Navbar bg="light" expand={true} fixed="top">
-            <Container>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Text>
-                    Signed in as: <span style={{ color: 'black' }}>{props.User?.displayName}</span>
-                </Navbar.Text>
-                <Navbar.Collapse className="justify-content-end">
+        <React.Fragment>
+            <Navbar bg="light" expand={true} fixed="top">
+                <Container>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Text>
+                        Signed in as: <span style={{ color: 'black' }}>{props.User?.displayName}</span>
+                    </Navbar.Text>
+                    <Navbar.Collapse className="justify-content-end">
 
-                    <Nav>
-                        <span style={{ marginRight: 16 }}>
-                            <Form.Control
-                                type="text"
-                                placeholder="Search"
-                                className=" mr-sm-2"
-                                value={searchText}
-                                onChange={e => updateSearchText(e.target.value)}
-                            />
-                        </span>
-                        <FilterModal minPlaytime={props.minPlaytime} maxPlaytime={props.maxPlaytime} updatePlayerCountFilter={setPlayers} updatePlaytimeFilter={setPlaytime} />
-                        <span style={{ marginRight: 8 }} />
-                        <AddGameModal />
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+                        <Nav>
+                            <span style={{ marginRight: 16 }}>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Search"
+                                    className=" mr-sm-2"
+                                    value={searchText}
+                                    onChange={e => updateSearchText(e.target.value)}
+                                />
+                            </span>
+                            <FilterModal minPlaytime={props.minPlaytime} maxPlaytime={props.maxPlaytime} updatePlayerCountFilter={setPlayers} updatePlaytimeFilter={setPlaytime} />
+                            <span style={{ marginRight: 8 }} />
+                            <AddGameModal />
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+        </React.Fragment>
     );
 }
 

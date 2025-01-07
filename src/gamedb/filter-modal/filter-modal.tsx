@@ -10,13 +10,9 @@ function FilterModal(props: { minPlaytime: number, maxPlaytime: number, updatePl
     const thumbSize = 5
     const maxPlayers = 15;
 
-    var defaultPlaytime = props.minPlaytime
-    defaultPlaytime = Math.ceil((props.minPlaytime + props.maxPlaytime) / 2);
-
-    const [initialized, setInitialized] = useState(false);
     const [show, setShow] = useState(false);
     const [numberOfPlayers, setNumberOfPlayers] = useState(10)
-    const [playtime, setPlaytime] = useState(defaultPlaytime)
+    const [playtime, setPlaytime] = useState(100)
 
     const [numberOfPlayersWidth, setNumberOfPlayersWidth] = useState(50)
     const [playersMarginLeft, setPlayersMarginLeft] = useState(16)
@@ -36,31 +32,30 @@ function FilterModal(props: { minPlaytime: number, maxPlaytime: number, updatePl
 
     const updateNumberOfPlayers = (num: number) => {
         setNumberOfPlayers(num);
-        const fullWidth = playersRef?.current?.offsetWidth;
-        if (fullWidth) {
-            setPlayersMarginLeft(16 - 15 * (num / maxPlayers - (.3 * (num / maxPlayers))))
-            const left = (((num - 1) / (maxPlayers - 1)) * ((fullWidth - thumbSize) - thumbSize)) + thumbSize;
-            setNumberOfPlayersWidth(left)
-        }
     }
 
     const updatePlaytime = (num: number) => {
         setPlaytime(num);
-        const fullWidth = playtimeRef?.current?.offsetWidth;
-        if (fullWidth) {
-            setPlaytimeMarginLeft(16 - 15 * (num / props.maxPlaytime - (.3 * (num / props.maxPlaytime))))
-            const left = (((num - props.minPlaytime) / (props.maxPlaytime - props.minPlaytime)) * ((fullWidth - thumbSize) - thumbSize)) + thumbSize;
-            setPlaytimeWidth(left)
-        }
     }
 
     useEffect(() => {
-        if (!initialized) {
-            updateNumberOfPlayers(10);
-            updatePlaytime(defaultPlaytime)
-            setInitialized(true)
+        const fullWidth = playtimeRef?.current?.offsetWidth;
+        if (fullWidth) {
+            setPlaytimeMarginLeft(16 - 15 * (playtime / props.maxPlaytime - (.3 * (playtime / props.maxPlaytime))))
+            const left = (((playtime - props.minPlaytime) / (props.maxPlaytime - props.minPlaytime)) * ((fullWidth - thumbSize) - thumbSize)) + thumbSize;
+            setPlaytimeWidth(left)
         }
-    })
+    }, [playtime, props.maxPlaytime, props.minPlaytime])
+
+    useEffect(() => {
+        const fullWidth = playersRef?.current?.offsetWidth;
+        if (fullWidth) {
+            setPlayersMarginLeft(16 - 15 * (numberOfPlayers / maxPlayers - (.3 * (numberOfPlayers / maxPlayers))))
+            const left = (((numberOfPlayers - 1) / (maxPlayers - 1)) * ((fullWidth - thumbSize) - thumbSize)) + thumbSize;
+            setNumberOfPlayersWidth(left)
+        }
+    }, [numberOfPlayers])
+
 
     return (
         <>

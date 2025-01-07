@@ -1,5 +1,5 @@
 export interface FilterQuery {
     searchText: string | undefined;
-    players: number;
-    playtime: number
+    players: number | undefined;
+    playtime: number | undefined
 }

@@ -14,7 +14,7 @@ import DeleteGameModal from "./delete-game-modal/delete-game-modal";
 
 function GameDBList(props: { games: Game[] }) {
     return (
-        <Container style={{ marginTop: 100 }}>
+        <Container>
             <Row>
                 <CardGroup>
                     {
