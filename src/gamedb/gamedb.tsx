@@ -33,6 +33,8 @@ function GameDB() {
 
     const [maxPlaytime, setMaxPlaytime] = useState(Number.MIN_VALUE);
     const [minPlaytime, setMinPlaytime] = useState(Number.MAX_VALUE);
+    const [genres, setGenres] = useState<String[]>([]);
+
     // Initialize Firebase
     const app = initializeApp(FirebaseConfig);
     const db = getFirestore(app);
@@ -47,6 +49,22 @@ function GameDB() {
                     return game;
                 })
                 .sort((a, b) => a.name.localeCompare(b.name))
+
+            const tempGenres: string[] = []
+            gameDocs.forEach(game => {
+                if (maxPlaytime < game.maxPlaytime) {
+                    setMaxPlaytime(game.maxPlaytime)
+                }
+
+                if (minPlaytime > game.minPlaytime) {
+                    console.log("Updating min playtime from " + minPlaytime + " to " + game.minPlaytime)
+                    setMinPlaytime(game.minPlaytime)
+                }
+
+                tempGenres.push(...game.genres)
+            })
+            setGenres(tempGenres.filter((x, i, a) => a.indexOf(x) == i))
+            console.log(genres);
 
             if (!!filter) {
                 var { searchText, players, playtime } = filter;
@@ -67,17 +85,6 @@ function GameDB() {
                     return true;
                 });
             }
-
-            gameDocs.forEach(game => {
-                if (maxPlaytime < game.maxPlaytime) {
-                    setMaxPlaytime(game.maxPlaytime)
-                }
-
-                if (minPlaytime > game.minPlaytime) {
-                    console.log("Updating min playtime from " + minPlaytime + " to " + game.minPlaytime)
-                    setMinPlaytime(game.minPlaytime)
-                }
-            })
 
             setGames(gameDocs)
         });
