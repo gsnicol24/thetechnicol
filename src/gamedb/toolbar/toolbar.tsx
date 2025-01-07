@@ -15,6 +15,7 @@ function GameDBToolbar(props: {
     setFilterQuery: React.Dispatch<React.SetStateAction<FilterQuery | undefined>>,
     minPlaytime: number,
     maxPlaytime: number;
+    genres: string[];
 }) {
 
     const [searchText, setSearchText] = useState<string | undefined>()
@@ -39,15 +40,21 @@ function GameDBToolbar(props: {
         props.setFilterQuery(query)
     }
 
-    const setPlayers = (players: number) => {
+    const setPlayers = (players: number | undefined) => {
         const query = getFilterQuery()
         query.players = players;
         updateFilterQuery(query);
     }
 
-    const setPlaytime = (playtime: number) => {
+    const setPlaytime = (playtime: number | undefined) => {
         const query = getFilterQuery()
         query.playtime = playtime;
+        updateFilterQuery(query);
+    }
+
+    const updateGenres = (genres: string[] | undefined) => {
+        const query = getFilterQuery()
+        query.genres = genres;
         updateFilterQuery(query);
     }
 
@@ -71,7 +78,13 @@ function GameDBToolbar(props: {
                                     onChange={e => updateSearchText(e.target.value)}
                                 />
                             </span>
-                            <FilterModal minPlaytime={props.minPlaytime} maxPlaytime={props.maxPlaytime} updatePlayerCountFilter={setPlayers} updatePlaytimeFilter={setPlaytime} />
+                            <FilterModal
+                                minPlaytime={props.minPlaytime}
+                                maxPlaytime={props.maxPlaytime}
+                                genres={props.genres}
+                                updatePlayerCountFilter={setPlayers}
+                                updatePlaytimeFilter={setPlaytime}
+                                updateGenres={updateGenres} />
                             <span style={{ marginRight: 8 }} />
                             <AddGameModal />
                         </Nav>

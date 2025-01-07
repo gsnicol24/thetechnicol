@@ -33,7 +33,7 @@ function GameDB() {
 
     const [maxPlaytime, setMaxPlaytime] = useState(Number.MIN_VALUE);
     const [minPlaytime, setMinPlaytime] = useState(Number.MAX_VALUE);
-    const [genres, setGenres] = useState<String[]>([]);
+    const [genres, setGenres] = useState<string[]>([]);
 
     // Initialize Firebase
     const app = initializeApp(FirebaseConfig);
@@ -57,17 +57,15 @@ function GameDB() {
                 }
 
                 if (minPlaytime > game.minPlaytime) {
-                    console.log("Updating min playtime from " + minPlaytime + " to " + game.minPlaytime)
                     setMinPlaytime(game.minPlaytime)
                 }
 
                 tempGenres.push(...game.genres)
             })
-            setGenres(tempGenres.filter((x, i, a) => a.indexOf(x) == i))
-            console.log(genres);
+            setGenres(tempGenres.filter((x, i, a) => a.indexOf(x) === i))
 
             if (!!filter) {
-                var { searchText, players, playtime } = filter;
+                var { searchText, players, playtime, genres } = filter;
 
                 gameDocs = gameDocs.filter(gameDoc => {
                     if (!!searchText && gameDoc.name.toUpperCase().indexOf(filter.searchText!.toUpperCase()) === -1) {
@@ -82,11 +80,22 @@ function GameDB() {
                         return false;
                     }
 
+                    if (!!genres && genres.length > 0) {
+                        var genreMatch = false;
+                        gameDoc.genres.forEach(genre => {
+                            if (genres?.includes(genre)) {
+                                genreMatch = true;
+                            }
+                        })
+                        return genreMatch;
+                    }
+
                     return true;
                 });
             }
 
             setGames(gameDocs)
+            return unsub;
         });
     })
 
@@ -134,7 +143,7 @@ function GameDB() {
 
     return (
         <div className="App">
-            <GameDBToolbar User={user} setFilterQuery={setFilter} minPlaytime={minPlaytime} maxPlaytime={maxPlaytime} />
+            <GameDBToolbar User={user} setFilterQuery={setFilter} minPlaytime={minPlaytime} maxPlaytime={maxPlaytime} genres={genres} />
             <div style={{ marginTop: 100 }}>
                 <Container>
                     <Row>

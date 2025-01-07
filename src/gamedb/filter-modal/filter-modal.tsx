@@ -2,8 +2,20 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { Filter, PlusLg } from "react-bootstrap-icons";
 import FormRange from 'react-bootstrap/FormRange'
+import MultiSelectDropdown from "../multi-select-dropdown/multi-select-dropdown";
+var Multiselect = require('react-bootstrap-multiselect');
 
-function FilterModal(props: { minPlaytime: number, maxPlaytime: number, updatePlayerCountFilter: (players: number) => void, updatePlaytimeFilter: (playtime: number) => void }) {
+function FilterModal(props: {
+    minPlaytime: number,
+    maxPlaytime: number,
+    genres: string[],
+    updatePlayerCountFilter: (players: number | undefined) => void,
+    updatePlaytimeFilter: (playtime: number | undefined) => void,
+    updateGenres: (genres: string[] | undefined) => void
+}) {
+    const [filterOnPlayers, setFilterOnPlayers] = useState(false)
+    const [filterOnPlaytime, setFilterOnPlaytime] = useState(false)
+
     const playersRef = useRef<HTMLInputElement>(null);
     const playtimeRef = useRef<HTMLInputElement>(null);
 
@@ -13,6 +25,7 @@ function FilterModal(props: { minPlaytime: number, maxPlaytime: number, updatePl
     const [show, setShow] = useState(false);
     const [numberOfPlayers, setNumberOfPlayers] = useState(10)
     const [playtime, setPlaytime] = useState(100)
+    const [selectedGenres, setSelectedGenres] = useState<string[] | undefined>([]);
 
     const [numberOfPlayersWidth, setNumberOfPlayersWidth] = useState(50)
     const [playersMarginLeft, setPlayersMarginLeft] = useState(16)
@@ -25,8 +38,15 @@ function FilterModal(props: { minPlaytime: number, maxPlaytime: number, updatePl
         setShow(false);
     }
     const handleSave = () => {
-        props.updatePlayerCountFilter(numberOfPlayers)
-        props.updatePlaytimeFilter(playtime)
+        props.updatePlayerCountFilter(filterOnPlayers ? numberOfPlayers : undefined)
+        props.updatePlaytimeFilter(filterOnPlaytime ? playtime : undefined)
+
+        if (!!selectedGenres && selectedGenres.length > 0) {
+            props.updateGenres(selectedGenres)
+        } else {
+            props.updateGenres(undefined)
+        }
+
         setShow(false);
     }
 
@@ -70,20 +90,42 @@ function FilterModal(props: { minPlaytime: number, maxPlaytime: number, updatePl
                 <Modal.Body>
                     <Row>
                         <Col>
-                            <Form.Label htmlFor="playerCount">Number of players</Form.Label>
-                            <FormRange ref={playersRef} id="playerCount" min={1} max={maxPlayers} value={numberOfPlayers} onChange={e => updateNumberOfPlayers(e.target.valueAsNumber)} />
-                            <span style={{ left: numberOfPlayersWidth, position: "absolute", marginLeft: playersMarginLeft, marginTop: 20 }}>
-                                {numberOfPlayers}
-                            </span>
+                            <Form.Check id="filterOnPlayers" label="Filter on players?" checked={filterOnPlayers} onChange={e => setFilterOnPlayers(e.target.checked)} />
+                            <div>
+                                <Form.Label htmlFor="playerCount">Number of players</Form.Label>
+                                <FormRange
+                                    ref={playersRef}
+                                    id="playerCount"
+                                    min={1}
+                                    max={maxPlayers}
+                                    disabled={!filterOnPlayers}
+                                    value={numberOfPlayers}
+                                    onChange={e => updateNumberOfPlayers(e.target.valueAsNumber)} />
+                                <span style={{ left: numberOfPlayersWidth, position: "absolute", marginLeft: playersMarginLeft, marginTop: 20 }}>
+                                    {numberOfPlayers}
+                                </span>
+
+                            </div>
                         </Col>
                     </Row>
                     <Row style={{ marginTop: 16 }}>
                         <Col>
-                            <Form.Label htmlFor="playtime">Playtime</Form.Label>
-                            <FormRange ref={playtimeRef} id="playtime" min={props.minPlaytime} max={props.maxPlaytime} value={playtime} onChange={e => updatePlaytime(e.target.valueAsNumber)} />
-                            <span style={{ left: playtimeWidth, position: "absolute", marginLeft: playtimeMarginLeft, marginTop: 20 }}>
-                                {playtime}
-                            </span>
+
+                            <Form.Check id="filterOnPlaytime" label="Filter on playtime?" checked={filterOnPlaytime} onChange={e => setFilterOnPlaytime(e.target.checked)} />
+                            <div>
+                                <Form.Label htmlFor="playtime">Playtime</Form.Label>
+                                <FormRange disabled={!filterOnPlaytime} ref={playtimeRef} id="playtime" min={props.minPlaytime} max={props.maxPlaytime} value={playtime} onChange={e => updatePlaytime(e.target.valueAsNumber)} />
+                                <span style={{ left: playtimeWidth, position: "absolute", marginLeft: playtimeMarginLeft, marginTop: 20 }}>
+                                    {playtime}
+                                </span>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <div style={{ marginTop: 32 }}>
+                                <MultiSelectDropdown genres={props.genres} setSelectedOptions={setSelectedGenres} />
+                            </div>
                         </Col>
                     </Row>
                 </Modal.Body>
@@ -95,7 +137,7 @@ function FilterModal(props: { minPlaytime: number, maxPlaytime: number, updatePl
                         Filter
                     </Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal >
         </>
     );
 }
