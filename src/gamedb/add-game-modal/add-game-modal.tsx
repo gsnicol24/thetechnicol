@@ -36,6 +36,7 @@ function AddGameModal(props: { existingGameIds: string[] }) {
     const [selectedId, setSelectedId] = useState<string | undefined>(undefined)
     const [show, setShow] = useState(false);
     const [searchResults, setSearchResults] = useState<BGGSearchResult[]>([])
+    const [searching, setSearching] = useState(false);
 
 
     const onAddManually = () => {
@@ -93,11 +94,13 @@ function AddGameModal(props: { existingGameIds: string[] }) {
         }
 
     const getInfo = () => {
+        setSearching(true)
         const baseUrl = "https://boardgamegeek.com/xmlapi2/search?type=boardgame&query=" + value
 
         axios.get(baseUrl)
             .then(response => {
                 parseResults(response)
+                setSearching(false)
             })
             .catch(error => {
                 console.error(error)
@@ -168,11 +171,17 @@ function AddGameModal(props: { existingGameIds: string[] }) {
                                                 />
                                             </Col>
                                             <Col xs="12" md="3" className="mt-2 mt-sm-0">
-                                                <Button style={{ width: "100%" }} type="submit">Search</Button>
+                                                <Button style={{ width: "100%" }} type="submit" disabled={searching}>Search</Button>
                                             </Col>
                                         </Row>
                                     </Container>
                                 </Form>
+                                {
+                                    searching &&
+                                    <div style={{ marginTop: 32, marginBottom: 32, display: "flex", justifyContent: "center" }}>
+                                        <Spinner variant="primary" />
+                                    </div>
+                                }
                                 <ListGroup style={{ marginTop: 10 }}>
                                     {
                                         searchResults.map(result => {
