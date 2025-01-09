@@ -148,7 +148,7 @@ function AddGameModal(props: { existingGameIds: string[] }) {
                 <PlusLg />
             </Button>
 
-            <Modal show={show} onHide={handleClose} size="lg">
+            <Modal show={show} onHide={handleClose} size="lg" backdrop={saving ? "static" : true}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add a game</Modal.Title>
                 </Modal.Header>
