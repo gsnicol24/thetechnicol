@@ -34,6 +34,7 @@ function GameDB() {
     const [maxPlaytime, setMaxPlaytime] = useState(Number.MIN_VALUE);
     const [minPlaytime, setMinPlaytime] = useState(Number.MAX_VALUE);
     const [genres, setGenres] = useState<string[]>([]);
+    const [existingGameIds, setExistingGameIds] = useState<string[]>([])
 
     // Initialize Firebase
     const app = initializeApp(FirebaseConfig);
@@ -51,7 +52,12 @@ function GameDB() {
                 .sort((a, b) => a.name.localeCompare(b.name))
 
             const tempGenres: string[] = []
+            const gameIds: string[] = []
             gameDocs.forEach(game => {
+                if (game.bggId) {
+                    gameIds.push(game.bggId)
+                }
+
                 if (maxPlaytime < game.maxPlaytime) {
                     setMaxPlaytime(game.maxPlaytime)
                 }
@@ -63,6 +69,7 @@ function GameDB() {
                 tempGenres.push(...game.genres)
             })
             setGenres(tempGenres.filter((x, i, a) => a.indexOf(x) === i))
+            setExistingGameIds(gameIds)
 
             if (!!filter) {
                 var { searchText, players, playtime, genres } = filter;
@@ -142,7 +149,7 @@ function GameDB() {
 
     return (
         <div className="App">
-            <GameDBToolbar User={user} setFilterQuery={setFilter} minPlaytime={minPlaytime} maxPlaytime={maxPlaytime} genres={genres} />
+            <GameDBToolbar User={user} setFilterQuery={setFilter} minPlaytime={minPlaytime} maxPlaytime={maxPlaytime} genres={genres} existingGameIds={existingGameIds} />
             <div style={{ marginTop: 100 }}>
                 <Container>
                     <Row>

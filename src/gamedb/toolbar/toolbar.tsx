@@ -16,6 +16,7 @@ function GameDBToolbar(props: {
     minPlaytime: number,
     maxPlaytime: number;
     genres: string[];
+    existingGameIds: string[];
 }) {
 
     const [searchText, setSearchText] = useState<string | undefined>()
@@ -98,7 +99,7 @@ function GameDBToolbar(props: {
                                 updateGenres={updateGenres}
                                 updateFilter={updateQueryWithExistingSearchText} />
                             <span style={{ marginRight: 8 }} />
-                            <AddGameModal />
+                            <AddGameModal existingGameIds={props.existingGameIds} />
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

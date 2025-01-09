@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
-import { useState } from "react";
-import { Button, Col, Container, Form, ListGroup, Row } from "react-bootstrap";
+import { useRef, useState } from "react";
+import { Alert, Button, Col, Container, Form, ListGroup, Row, Spinner } from "react-bootstrap";
 import { PlusLg } from "react-bootstrap-icons";
 import Modal from 'react-bootstrap/Modal';
 import { XMLParser } from 'fast-xml-parser';
@@ -11,7 +11,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
 
-function AddGameModal() {
+function AddGameModal(props: { existingGameIds: string[] }) {
+
+
+    const modalBodyRef: React.RefObject<HTMLDivElement | null> = useRef<HTMLDivElement | null>(null);
+    const overlayRef: React.RefObject<HTMLDivElement | null> = useRef<HTMLDivElement | null>(null);
+
+
     const app = initializeApp(FirebaseConfig)
     const db = getFirestore(app);
 
@@ -24,6 +30,7 @@ function AddGameModal() {
     const [bestMinPlayers, setBestMinPlayers] = useState<number>(1)
     const [bestMaxPlayers, setBestMaxPlayers] = useState<number>(1)
     const [genres, setGenres] = useState<string[]>([])
+    const [saving, setSaving] = useState<boolean>(false)
 
 
     const [selectedId, setSelectedId] = useState<string | undefined>(undefined)
@@ -47,7 +54,19 @@ function AddGameModal() {
 
 
     const handleSave = async () => {
-        const docRef = await addDoc(collection(db, "games"), {
+        setSaving(true)
+        const fullWidth = modalBodyRef?.current?.offsetWidth;
+        const fullHeight = modalBodyRef?.current?.offsetHeight;
+
+        if (overlayRef.current) {
+            overlayRef.current.style.width = (fullWidth ?? 0) + 16 + "px";
+            overlayRef.current.style.height = (fullHeight ?? 0) + 16 + "px";
+            overlayRef.current.style.opacity = "80%";
+            overlayRef.current.style.marginLeft = "-8px"
+            overlayRef.current.style.marginTop = "-8px"
+        }
+
+        await addDoc(collection(db, "games"), {
             name: gameName,
             bggId: selectedId !== "manual" ? selectedId : null,
             minPlayers,
@@ -60,6 +79,7 @@ function AddGameModal() {
             genres
         });
 
+        setSaving(false);
         handleClose();
     };
 
@@ -109,7 +129,8 @@ function AddGameModal() {
             searchResults.push({
                 id,
                 name,
-                yearPublished
+                yearPublished,
+                alreadyInCollection: props.existingGameIds.includes(id)
             })
         })
 
@@ -156,8 +177,16 @@ function AddGameModal() {
                                     {
                                         searchResults.map(result => {
                                             return (
-                                                <ListGroup.Item action onClick={() => itemClicked(result.id)} key={result.id}>
-                                                    {result.name}
+                                                <ListGroup.Item action onClick={() => itemClicked(result.id)} key={result.id} disabled={result.alreadyInCollection}>
+                                                    <div style={{ display: "inline-block" }}>
+                                                        <span style={{ display: "block" }}>{result.name}</span>
+                                                        {
+                                                            result.alreadyInCollection &&
+                                                            <Alert key="info" variant="info" style={{ display: "inline", padding: "4px 8px", marginTop: 8 }}>
+                                                                Already in collection
+                                                            </Alert>
+                                                        }
+                                                    </div>
                                                     <span style={{ float: "right" }}>{result.yearPublished}</span>
                                                 </ListGroup.Item>
                                             )
@@ -167,26 +196,34 @@ function AddGameModal() {
                             </div>
                             :
                             <div>
-                                <GameDetails
-                                    selectedId={selectedId}
-                                    setGameName={setGameName}
-                                    setImageUrl={setImageUrl}
-                                    setMaxPlayers={setMaxPlayers}
-                                    setMinPlayers={setMinPlayers}
-                                    setBestMinPlayers={setBestMinPlayers}
-                                    setBestMaxPlayers={setBestMaxPlayers}
-                                    setMinPlaytime={setMinPlaytime}
-                                    setMaxPlaytime={setMaxPlaytime}
-                                    setGenres={setGenres} />
+                                <div ref={overlayRef} style={{ background: "gray", position: "absolute", opacity: 0 }}>
+                                    <div style={{ display: "flex", justifyContent: "center", height: "100%", alignItems: "center" }}>
+                                        <Spinner />
+                                    </div>
+                                </div>
+                                <div
+                                    ref={modalBodyRef}>
+                                    <GameDetails
+                                        selectedId={selectedId}
+                                        setGameName={setGameName}
+                                        setImageUrl={setImageUrl}
+                                        setMaxPlayers={setMaxPlayers}
+                                        setMinPlayers={setMinPlayers}
+                                        setBestMinPlayers={setBestMinPlayers}
+                                        setBestMaxPlayers={setBestMaxPlayers}
+                                        setMinPlaytime={setMinPlaytime}
+                                        setMaxPlaytime={setMaxPlaytime}
+                                        setGenres={setGenres} />
+                                </div>
                             </div>
                     }
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={onAddManually}>
+                    <Button variant="secondary" onClick={onAddManually} disabled={saving}>
                         {selectedId === undefined ? "Add manually" : "Search for game"}
                     </Button>
-                    <Button variant="primary" onClick={handleSave} disabled={!gameName}>
+                    <Button variant="primary" onClick={handleSave} disabled={!gameName || saving}>
                         Add game
                     </Button>
                 </Modal.Footer>
