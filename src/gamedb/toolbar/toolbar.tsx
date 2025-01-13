@@ -1,14 +1,16 @@
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
-import { PlusLg } from 'react-bootstrap-icons';
+import { CollectionPlay, PlusLg } from 'react-bootstrap-icons';
 import AddGameModal from '../add-game-modal/add-game-modal';
 import firebase from 'firebase/compat/app';
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { useState } from 'react';
 import FilterModal from '../filter-modal/filter-modal';
 import { FilterQuery } from '../models/filter';
 import React from 'react';
+import RandomModal from '../random-modal/random-modal';
+import { Game } from '../models/game';
 
 function GameDBToolbar(props: {
     User: firebase.User | undefined,
@@ -17,10 +19,12 @@ function GameDBToolbar(props: {
     maxPlaytime: number;
     genres: string[];
     existingGameIds: string[];
+    currentGames: Game[];
 }) {
 
     const [searchText, setSearchText] = useState<string | undefined>()
     const [filterQuery, setFilterQuery] = useState<FilterQuery | undefined>(undefined)
+    const [showRandomModal, setShowRandomModal] = useState<boolean>(false);
 
     const updateSearchText = (searchText: string) => {
         setSearchText(searchText);
@@ -90,6 +94,11 @@ function GameDBToolbar(props: {
                                     onChange={e => updateSearchText(e.target.value)}
                                 />
                             </span>
+                            <Button style={{ display: "flex", alignItems: "center" }} variant="outline-secondary" onClick={() => setShowRandomModal(true)}>
+                                <CollectionPlay />
+                            </Button>
+                            <RandomModal games={props.currentGames} show={showRandomModal} handleClose={() => setShowRandomModal(false)} />
+                            <span style={{ marginRight: 8 }} />
                             <FilterModal
                                 minPlaytime={props.minPlaytime}
                                 maxPlaytime={props.maxPlaytime}

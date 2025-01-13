@@ -149,7 +149,14 @@ function GameDB() {
 
     return (
         <div className="App">
-            <GameDBToolbar User={user} setFilterQuery={setFilter} minPlaytime={minPlaytime} maxPlaytime={maxPlaytime} genres={genres} existingGameIds={existingGameIds} />
+            <GameDBToolbar
+                User={user}
+                setFilterQuery={setFilter}
+                minPlaytime={minPlaytime}
+                maxPlaytime={maxPlaytime}
+                genres={genres}
+                existingGameIds={existingGameIds}
+                currentGames={games} />
             <div style={{ marginTop: 100 }}>
                 <Container>
                     <Row>
