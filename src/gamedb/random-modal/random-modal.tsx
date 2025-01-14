@@ -55,38 +55,45 @@ function RandomModal(props: { show: boolean; games: Game[], handleClose: () => v
             <Modal.Body style={{ height: '100%' }} >
                 {
                     props.games && props.games.length > 0 &&
-                    <Row>
-                        <Col xs={3} style={{ alignContent: "center" }}>
-                            <RandomGameCard game={props.games[beforeCurrentGameIdx]} isSelected={false} />
-                        </Col>
-                        <Col xs={6} style={{ alignContent: "center" }}>
-                            <RandomGameCard game={props.games[currentGameIdx]} isSelected={true} />
-                            {
-                                randomItemSelected &&
-                                (
-                                    <div style={{ display: "flex", justifyContent: "center" }}>
-                                        <Alert variant="success" style={{ marginTop: 16, padding: "4px 32px", display: "inline-block" }}>
+                    <div>
+                        <Row>
+                            <Col xs={3} style={{ alignContent: "center" }}>
+                                <RandomGameCard game={props.games[beforeCurrentGameIdx]} isSelected={false} />
+                            </Col>
+                            <Col xs={6} style={{ alignContent: "center" }}>
+                                <RandomGameCard game={props.games[currentGameIdx]} isSelected={true} />
+
+                            </Col>
+                            <Col xs={3} style={{ alignContent: "center" }}>
+                                <RandomGameCard game={props.games[afterCurrentGameIdx]} isSelected={false} />
+                            </Col>
+                        </Row>
+                        {
+                            randomItemSelected &&
+                            (
+                                <Row>
+                                    <Col style={{ textAlign: "center" }}>
+                                        <Alert variant="success" style={{ marginTop: 16, display: "inline-block" }}>
 
                                             <div style={{ textAlign: "center" }}>
-                                                <div >
+                                                <div style={{ marginBottom: 1 }}>
                                                     <Dice1 /> <Dice2Fill /> <Dice3 /> <Dice4Fill /> <Dice5 /> <Dice6Fill />
                                                 </div>
                                                 <div>
                                                     {props.games[currentGameIdx].name}
                                                 </div>
-                                                <div>
+                                                <div style={{ marginTop: 1 }}>
                                                     <Dice1Fill /> <Dice2 /> <Dice3Fill /> <Dice4 /> <Dice5Fill /> <Dice6 />
                                                 </div>
                                             </div>
                                         </Alert>
-                                    </div>
-                                )
-                            }
-                        </Col>
-                        <Col xs={3} style={{ alignContent: "center" }}>
-                            <RandomGameCard game={props.games[afterCurrentGameIdx]} isSelected={false} />
-                        </Col>
-                    </Row>
+                                    </Col>
+                                </Row>
+                            )
+                        }
+                    </div>
+
+
                 }
             </Modal.Body>
             <Modal.Footer>
