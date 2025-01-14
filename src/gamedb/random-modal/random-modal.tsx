@@ -34,7 +34,7 @@ function RandomModal(props: { show: boolean; games: Game[], handleClose: () => v
     }
 
     const shuffleGames = () => {
-        randomIdx = Math.floor(Math.random() * 50)
+        randomIdx = 10 + Math.floor(Math.random() * 40)
         shuffleIndex = currentGameIdx;
         shuffleCounter = 0;
         setRandomItemSelected(false);
