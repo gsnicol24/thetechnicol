@@ -11,7 +11,7 @@ function RandomGameCard(props: { game: Game, isSelected: boolean }) {
 
     return (
         <Card style={{ minWidth: "90%", maxWidth: "90%", margin: "auto" }}>
-            <Card.Img variant="top" src={props.game.img ?? "question-mark.jpg"} />
+            <Card.Img variant="top" src={props.game.img ?? "question-mark.jpg"} style={{ maxHeight: "50vh", objectFit: "cover" }} />
             <Card.Header className={cardHeaderClass}>
                 <span style={{
                     textOverflow: "ellipsis",
