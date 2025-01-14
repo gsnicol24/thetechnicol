@@ -254,7 +254,7 @@ function GameDetails(
                                         value={newGenre}
                                     />
                                 </Col>
-                                <Col xs={3} style={{ alignContent: "end" }}>
+                                <Col xs={6} md={4} lg={3} style={{ alignContent: "end" }}>
                                     <Button style={{ width: "100%" }} onClick={addNewGenre}>
                                         Add new genre
                                     </Button>

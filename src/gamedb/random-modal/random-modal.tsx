@@ -48,7 +48,7 @@ function RandomModal(props: { show: boolean; games: Game[], handleClose: () => v
 
 
     return (
-        <Modal show={props.show} onHide={props.handleClose} size="xl" style={{ height: "100vh" }}>
+        <Modal id="randomModal" show={props.show} onHide={props.handleClose} size="xl" style={{ height: "100vh" }}>
             <Modal.Header closeButton>
                 <Modal.Title>Game randomizer</Modal.Title>
             </Modal.Header>
